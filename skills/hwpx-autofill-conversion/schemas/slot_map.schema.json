@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openclaw.local/schemas/hwpx-slot-map.schema.json",
+  "title": "HWPX Slot Map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "status", "template", "slots"],
+  "properties": {
+    "version": {"type": "string", "const": "0.1"},
+    "status": {"type": "string", "enum": ["draft", "reviewed"]},
+    "template": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file"],
+      "properties": {
+        "file": {"type": "string"},
+        "source_structure": {"type": "string"},
+        "sections": {"type": "integer", "minimum": 0},
+        "tables": {"type": "integer", "minimum": 0}
+      }
+    },
+    "slots": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/slot"}
+    },
+    "warnings": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "notes": {"type": "string"}
+  },
+  "$defs": {
+    "slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot_id", "slot_type", "section", "anchor", "confidence", "requires_review"],
+      "properties": {
+        "slot_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "slot_type": {
+          "type": "string",
+          "enum": ["title", "subtitle", "summary", "authoring", "body_start", "heading", "body_paragraph", "table", "note", "replacement"]
+        },
+        "role": {"type": "string"},
+        "section": {"type": "string"},
+        "anchor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {"type": "string", "enum": ["paragraph", "table", "text", "package"]},
+            "paragraph_index": {"type": "integer", "minimum": 0},
+            "table_index": {"type": "integer", "minimum": 0},
+            "text": {"type": "string"},
+            "headers": {"type": "array", "items": {"type": "string"}}
+          },
+          "required": ["kind"]
+        },
+        "prototype": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "paraPrIDRef": {"type": ["string", "null"]},
+            "styleIDRef": {"type": ["string", "null"]},
+            "row_count": {"type": "integer", "minimum": 0},
+            "col_count": {"type": "integer", "minimum": 0}
+          }
+        },
+        "content_key": {"type": "string"},
+        "placement": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "after_heading": {"type": "string"},
+            "mode": {"type": "string", "enum": ["replace", "insert_after", "clone_and_fill"]}
+          }
+        },
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "requires_review": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.1",
+  "required_fields": [
+    "schema_version",
+    "template_id",
+    "template_file",
+    "audience",
+    "layout_type",
+    "cover_slots",
+    "section_heading",
+    "body_markers",
+    "content_policy",
+    "table_policy",
+    "validation_policy",
+    "template_density_reference",
+    "json_generation_policy"
+  ],
+  "layout_types": [
+    "onepager",
+    "multipage_report",
+    "longform_report"
+  ],
+  "section_heading_types": [
+    "bullet",
+    "numbered_decimal",
+    "table_based_roman"
+  ],
+  "body_markers": [
+    "□",
+    "ㅇ",
+    "-",
+    "※"
+  ],
+  "content_policy_fields": {
+    "sections": [
+      "min_sections",
+      "target_sections",
+      "max_sections"
+    ],
+    "children": [
+      "min_children_per_section",
+      "target_children_per_section",
+      "max_children_per_section"
+    ],
+    "density": [
+      "min_body_markers",
+      "density_rule",
+      "require_dense_body"
+    ],
+    "tables": [
+      "target_tables",
+      "require_tables_when_relevant"
+    ],
+    "prompt_guidance": [
+      "writing_guidance",
+      "summary_box_sentences"
+    ]
+  },
+  "template_density_reference_fields": [
+    "paragraphs_total",
+    "paragraphs_nonempty",
+    "tables",
+    "marker_counts",
+    "purpose"
+  ],
+  "density_policy": {
+    "meaning": "템플릿 원본의 구조와 분량 수준을 모델의 report.json 생성 기준으로 사용한다.",
+    "not_exact_match": "원본 숫자를 완전히 맞출 필요는 없다.",
+    "failure_condition": "결과물이 원본 양식의 최소 분량 수준보다 현저히 비어 보이면 실패로 판단한다."
+  },
+  "purpose": "Local profile contract for hwpxskill templates. This file is documentation and validation aid, not a strict JSON Schema draft.",
+  "json_generation_policy_fields": [
+    "use_profile_before_writing_report_json",
+    "prompt_must_include",
+    "minimum_density_rule",
+    "avoid"
+  ],
+  "inline_emphasis_policy_fields": [
+    "default",
+    "use_only_when",
+    "report_json_format",
+    "validation_rule"
+  ]
+}

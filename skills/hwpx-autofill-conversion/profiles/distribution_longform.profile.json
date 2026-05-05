@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.1",
+  "template_id": "distribution_longform",
+  "template_file": "templates/붙임2 장문 보고서 양식_(가)_배포용.hwpx",
+  "audience": "distribution_public",
+  "layout_type": "longform_report",
+  "cover_slots": {
+    "department_placeholders": [
+      "ㅇㅇㅇ부"
+    ],
+    "title_placeholders": [
+      "◯◯◯◯부 △△△△△ 기본 계획(안)"
+    ],
+    "date_placeholders": [
+      "2025.  .  ."
+    ],
+    "fixed_text_placeholders": {
+      "eyebrow": [
+        "빈틈없는 학생 성장 지원으로 인재 양성에 기여"
+      ],
+      "note": "eyebrow 문구는 템플릿 고정 문구이므로 기본 교체 대상이 아니다."
+    },
+    "title_policy": {
+      "single_line_title": true,
+      "rule": "장문 표지 제목 슬롯은 `◯◯◯◯부`와 `△△△△△ 기본 계획(안)`을 합친 하나의 제목 슬롯이다. 두 placeholder를 따로 처리하지 말고 전체 제목 한 줄로 치환한다.",
+      "title_slot": "◯◯◯◯부 △△△△△ 기본 계획(안)",
+      "footer_department_slot": "ㅇㅇㅇ부"
+    },
+    "toc_policy": {
+      "page_numbers": false,
+      "style": "clean_indented",
+      "rule": "목차는 페이지 번호를 넣지 않는다. 기존 placeholder와 점선 잔여 데이터는 제거하고, 장 제목을 보기 좋게 한 줄씩 배치한다."
+    }
+  },
+  "section_heading": {
+    "type": "table_based_roman",
+    "example": "Ⅰ 일반현황",
+    "h1_required": true
+  },
+  "body_markers": [
+    "□",
+    "ㅇ",
+    "-",
+    "※"
+  ],
+  "content_policy": {
+    "min_sections": 4,
+    "target_sections": 4,
+    "min_children_per_section": 10,
+    "summary_box_sentences": 0,
+    "require_dense_body": true,
+    "require_dash_bullets": true,
+    "writing_guidance": "장문 보고서이므로 표지와 장 제목 구조를 유지하되, 장 제목을 지나치게 많이 만들지 않는다. 큰 섹션은 4개 안팎으로 두고, 특히 세 번째 섹션에 본론과 주요내용을 충분히 배치한다. □만 나열하지 말고 각 □ 아래에 ㅇ와 -를 충분히 사용해 페이지가 비어 보이지 않게 작성한다.",
+    "target_children_per_section": 14,
+    "min_body_markers": {
+      "□": 16,
+      "ㅇ": 36,
+      "-": 20,
+      "※": 4
+    },
+    "target_tables": 4,
+    "density_rule": "원본 장문 양식은 h1 성격의 큰 섹션을 소수로 두고 특정 본론 섹션에 불릿을 많이 배치해 분량을 만든다. 섹션 수를 늘려 분량을 맞추지 말고, 큰 섹션 안의 □/ㅇ/- 문단을 충분히 확장해야 한다.",
+    "max_sections": 5,
+    "target_body_markers": {
+      "□": 18,
+      "ㅇ": 44,
+      "-": 24,
+      "※": 5
+    },
+    "recommended_tables_range": [
+      3,
+      5
+    ],
+    "major_content_section_index": 3,
+    "section_composition_guidance": "장문보고서는 h1 성격의 큰 섹션을 4개 안팎으로 유지한다. 세 번째 섹션에 본론과 주요 내용을 가장 두껍게 배치하고, 작은 주제를 h1로 쪼개지 말고 같은 섹션 안의 □/ㅇ/- 위계로 정리한다."
+  },
+  "table_policy": {
+    "use_tables": true,
+    "prototype_headers": [
+      "푸른 음영",
+      "문자 가운데 정렬",
+      "숫자 오른쪽 정렬",
+      "비 고"
+    ],
+    "place_after_heading": true
+  },
+  "validation_policy": {
+    "must_validate_hwpx": true,
+    "must_check_cover_slots": true,
+    "must_check_body_density": true,
+    "must_check_density_against_profile": true,
+    "must_expand_report_json_if_sparse": true
+  },
+  "notes": [
+    "표지, 목차, 로마숫자 장 제목 구조를 일반 문단으로 바꾸지 않는다.",
+    "eyebrow 문구는 템플릿 고정 문구이며, 로고나 슬로건처럼 보존한다.",
+    "장문보고서는 작은 주제를 h1로 계속 쪼개지 않는다. 본론 섹션 내부의 불릿 밀도로 분량을 확보한다.",
+    "하단 `ㅇㅇㅇ부`만 부서명 슬롯으로 사용한다.",
+    "장문 표지 제목 슬롯은 `◯◯◯◯부 △△△△△ 기본 계획(안)` 전체다. 실제 제목 한 줄로 치환한다.",
+    "하단 `ㅇㅇㅇ부`만 부서명 슬롯으로 사용한다.",
+    "목차는 페이지 번호 없이 깔끔한 들여쓰기형 제목 목록으로 작성한다."
+  ],
+  "template_density_reference": {
+    "paragraphs_total": 248,
+    "paragraphs_nonempty": 177,
+    "tables": 13,
+    "marker_counts": {
+      "□": 19,
+      "ㅇ": 45,
+      "-": 25,
+      "․": 8,
+      "※": 6,
+      "number_heading": 18,
+      "roman_heading": 10
+    },
+    "purpose": "템플릿 원본의 분량 수준을 가늠하기 위한 참고값이다. 반드시 숫자를 완전히 맞추라는 뜻은 아니지만, 결과물이 이 밀도보다 지나치게 비어 보이면 실패로 본다."
+  },
+  "json_generation_policy": {
+    "use_profile_before_writing_report_json": true,
+    "prompt_must_include": [
+      "layout_type",
+      "section_heading",
+      "body_markers",
+      "content_policy.writing_guidance",
+      "content_policy.density_rule",
+      "content_policy.min_body_markers",
+      "template_density_reference.marker_counts"
+    ],
+    "minimum_density_rule": "report.json은 템플릿 원본의 구성 밀도를 참고해 작성한다. 정확히 같은 개수를 맞출 필요는 없지만, 원본 양식보다 현저히 빈약한 구성은 실패로 본다.",
+    "avoid": [
+      "원페이퍼처럼 짧은 양식에 장문형 JSON을 넣지 않는다.",
+      "장문 양식에 요약형 JSON을 그대로 넣지 않는다.",
+      "□ 문단만 나열하고 ㅇ/- 하위 문단을 생략하지 않는다.",
+      "eyebrow 고정 문구를 summary_title 또는 제목으로 바꾸지 않는다.",
+      "장문 표지 제목 슬롯을 `◯◯◯◯부`와 `△△△△△ 기본 계획(안)`으로 따로 처리하지 않는다.",
+      "목차에 기존 placeholder, 점선, 잘못된 페이지번호 잔여 데이터를 남기지 않는다.",
+      "ㅇ/- 문단마다 괄호형 키워드를 기계적으로 붙이지 않는다."
+    ]
+  },
+  "inline_emphasis_policy": {
+    "default": "하위 불릿 첫머리에 괄호형 앞소제목을 강제하지 않는다.",
+    "use_only_when": [
+      "사용자가 명시적으로 요구한 경우",
+      "원문 보존 또는 템플릿 재현상 필요한 경우"
+    ],
+    "report_json_format": "일반 문장으로 작성한다. 굵게가 필요한 경우 해당 핵심어만 **핵심어** 형식으로 최소 표시한다.",
+    "validation_rule": "생성된 HWPX에는 ** 마커가 남으면 안 된다."
+  }
+}

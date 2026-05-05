@@ -1,0 +1,33 @@
+# Secrets and local environment
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# Generated document workspaces
+output/
+outputs/
+tmp/
+temp/
+unpacked/
+extracted/
+*.bak
+
+# HWP/HWPX source documents are ignored by default to avoid accidental leaks.
+# Public-safe templates may be explicitly included under skill assets/examples.
+*.hwp
+*.hwpx
+!skills/**/assets/**/*.hwpx
+!skills/**/examples/**/*.hwpx
+!skills/**/templates/**/*.hwpx
+
+# Private local regression fixtures are never published.
+test-fixtures/private/
+

@@ -1,0 +1,63 @@
+{
+  "version": "0.1",
+  "status": "reviewed",
+  "template": {
+    "file": "templates/your-template.hwpx",
+    "source_structure": "examples/template_structure.json",
+    "sections": 1,
+    "tables": 1
+  },
+  "slots": [
+    {
+      "slot_id": "title_main",
+      "slot_type": "title",
+      "role": "main cover title",
+      "section": "Contents/section0.xml",
+      "anchor": {
+        "kind": "paragraph",
+        "paragraph_index": 0,
+        "text": "기존 제목"
+      },
+      "prototype": {
+        "paraPrIDRef": "0",
+        "styleIDRef": "0"
+      },
+      "content_key": "title",
+      "placement": {
+        "mode": "replace"
+      },
+      "confidence": 1.0,
+      "requires_review": false,
+      "notes": "Replace with report.title."
+    },
+    {
+      "slot_id": "table_schedule",
+      "slot_type": "table",
+      "role": "schedule table prototype",
+      "section": "Contents/section0.xml",
+      "anchor": {
+        "kind": "table",
+        "table_index": 0,
+        "headers": [
+          "구분",
+          "일정",
+          "내용"
+        ]
+      },
+      "prototype": {
+        "row_count": 2,
+        "col_count": 3
+      },
+      "content_key": "table_schedule",
+      "placement": {
+        "mode": "clone_and_fill",
+        "after_heading": "개선 방안"
+      },
+      "confidence": 1.0,
+      "requires_review": false,
+      "notes": "Fill a cloned table after the matching report item heading."
+    }
+  ],
+  "warnings": [],
+  "notes": "Example only. Build reviewed slot maps from your own template inspection output."
+}
