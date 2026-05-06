@@ -1,6 +1,11 @@
 ---
 name: hwpx-mouseco
 description: 한국 공공문서용 HWPX(.hwpx) 보고서 양식을 분석·작성·검증할 때 사용한다. 공개 배포용 원페이퍼, 다중페이퍼, 장문 보고서 프로파일과 템플릿을 기준으로 report JSON을 만들고, HWPX 내부 XML을 보존하면서 문서를 생성한다. 레거시 .hwp 바이너리 파일은 직접 편집하지 않는다.
+license: MIT
+metadata:
+  category: documents
+  locale: ko-KR
+  phase: v1
 ---
 
 # hwpx-mouseco

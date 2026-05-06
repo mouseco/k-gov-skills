@@ -1,6 +1,11 @@
 ---
 name: official-report-skillset
 description: 공공기관 공문서·보고서·검토보고·계획보고·결과보고·회의결과·간부보고 작성 전용 스킬셋. 사용자가 "공문서 작성", "보고서 써줘", "검토보고서", "계획보고", "결과보고", "간부 보고", "내부 보고서", "정책 보고서", "회의결과 보고", "보고서 초안", "공공기관 문서"를 요청할 때 사용한다. 필요 시 deep-research-pro 방식으로 정책·법령·통계·사례 근거를 수집·교차확인한 뒤 문서 유형 판별, 작성 기법 선택, 초안 작성, 논리 검토, 한글 교정을 수행한다.
+license: MIT
+metadata:
+  category: documents
+  locale: ko-KR
+  phase: v1
 ---
 
 # official-report-skillset

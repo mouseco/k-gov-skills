@@ -82,6 +82,13 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 ## 📁 저장소 구조
 
 ```text
+docs/
+  adding-a-skill.md          새 스킬 추가 표준
+  security-and-secrets.md    공개자료·시크릿 취급 기준
+  attribution.md             외부·파생 스킬 출처 기록
+  features/                  스킬별 사용자·유지보수 문서
+scripts/
+  validate_skills.py         메타데이터·문서·JSON·Python·HWPX 검증
 skills/
   official-report-skillset/
     SKILL.md        공공기관 보고서 작성 규칙
@@ -101,6 +108,17 @@ skills/
 
 ---
 
+## 🧭 스킬 제작 표준
+
+새 스킬을 추가하거나 기존 스킬을 고칠 때는 아래 문서를 기준으로 합니다.
+
+- `docs/adding-a-skill.md` — `SKILL.md` frontmatter, 폴더 구조, feature docs 작성 기준
+- `docs/security-and-secrets.md` — 공개 가능한 HWPX·예시·시크릿 기준
+- `docs/attribution.md` — 외부·파생 스킬 출처와 수정 범위
+- `docs/features/<skill-name>.md` — 스킬별 사용 설명과 실패 모드
+
+---
+
 ## 🛡️ 공개 배포 기준
 
 이 저장소에는 공개 가능한 자료만 둡니다.
@@ -115,15 +133,29 @@ skills/
 
 ## ✅ 현재 검증 상태
 
-현재 스킬 모음은 아래 항목을 통과했습니다.
+현재 스킬 모음은 아래 명령으로 검증합니다.
+
+```powershell
+python -X utf8 scripts\validate_skills.py
+```
+
+검증 범위:
+
+- `SKILL.md` frontmatter 표준 확인
+- 스킬명과 폴더명 일치 확인
+- 스킬별 `docs/features/<skill-name>.md` 존재 확인
+- JSON 파싱 확인
+- Python 스크립트 컴파일 확인
+- HWPX 템플릿 ZIP/XML 구조 확인
+- 공개 저장소에 부적절한 민감 문자열 기본 검색
+
+현재 확인된 상태:
 
 - `official-report-skillset` SKILL.md 및 references 포함
-- `deep-research-pro` OpenClaw 맞춤 SKILL.md 및 보조 스크립트 포함
-- `deep-research-pro` Python 스크립트 컴파일 검증
-- `deep-research-pro` smoke report 구조 검증
-- `hwpx-mouseco` 배포용 HWPX 템플릿 3종 포함
-- `hwpx-mouseco` 배포용 프로파일 3종 포함
-- `hwpx-mouseco` JSON 파싱, Python compile, inspect/create/validate 검증
+- `deep-research-pro` OpenClaw 맞춤 SKILL.md, 출처 기록, 보조 스크립트 포함
+- `hwpx-mouseco` 배포용 HWPX 템플릿 3종, 프로파일 3종, 예시 JSON 포함
+- `python -X utf8 scripts\validate_skills.py` 통과
+- `hwpx-mouseco` 원페이퍼 생성 및 validate-only smoke test 통과
 
 ---
 
