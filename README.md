@@ -18,7 +18,7 @@
 | `official-report-skillset` | 공공기관 공문서·검토보고·계획보고·결과보고·간부보고 초안 작성과 논리 점검을 위한 스킬 |
 | `deep-research-pro` | 공문서·정책보고서에 넣을 법령·지침·공식자료·통계·사례 근거를 출처와 함께 조사하는 심층 리서치 스킬 |
 | `hwpx-mouseco` | HWPX 보고서 양식을 분석하고, 공개 배포용 프로파일에 맞춰 원페이퍼·다중페이퍼·장문 보고서를 생성하는 스킬 |
-| `gov-meeting-brief` | 공공기관 회의 메모·녹취 요약을 회의결과보고, 후속조치 목록, 간부 공유용 브리핑으로 정리하는 스킬 |
+| `gov-meeting-minutes` | 공공기관 회의 메모·녹취록을 1쪽 회의록과 상세 발언록이 포함된 공문서형 PDF로 만드는 스킬 |
 
 ---
 
@@ -49,16 +49,16 @@
 
 ---
 
-## 🧩 gov-meeting-brief
+## 🧩 gov-meeting-minutes
 
-`gov-meeting-brief`는 회의 메모, 자동 전사, 참석자 발언 요약을 공공기관 회의결과보고와 후속조치 목록으로 정리하는 스킬입니다.
+`gov-meeting-minutes`는 회의 메모, ClovaNote 전사, 참석자 발언 요약을 공문서형 회의록 PDF로 정리하는 스킬입니다.
 
 ### 할 수 있는 일
 
-- 회의 목적, 안건, 논의 요지, 결정사항을 분리합니다.
-- 담당자·기한·후속조치를 실행 단위로 정리합니다.
-- 결정사항과 단순 의견을 구분해 감사·보고 리스크를 줄입니다.
-- 간부 공유용 5줄 요약과 남은 쟁점을 정리합니다.
+- 1쪽에는 회의 목적, 주요 논의내용, 결정사항, 후속조치, 확인 필요사항을 정리합니다.
+- 2쪽 이후에는 시간순 상세 발언록을 붙입니다.
+- `참석자 1`, `참석자 2`처럼 익명 발언자가 있으면 사용자에게 이름·직함을 확인한 뒤 반영합니다.
+- 둥근 카드형 보고서가 아니라 표와 선 중심의 담백한 공문서형 PDF를 생성합니다.
 
 ---
 
@@ -89,7 +89,7 @@ Codex/OpenClaw 스킬 설치 도구에서 필요한 스킬 경로를 지정합�
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/official-report-skillset
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/deep-research-pro
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/hwpx-mouseco
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/gov-meeting-brief
+$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/gov-meeting-minutes
 ```
 
 설치 후에는 새 세션에서 스킬이 인식되도록 Codex/OpenClaw를 다시 시작합니다.
@@ -121,9 +121,11 @@ skills/
     references/     작성 규칙과 HWPX 구조 참고자료
     examples/       공개 예시 JSON
     schemas/        slot map 검토용 스키마
-  gov-meeting-brief/
-    SKILL.md        회의결과보고·후속조치 정리 규칙
-    references/     결정사항·의견 구분과 민감정보 처리 기준
+  gov-meeting-minutes/
+    SKILL.md        회의록 PDF 생성 규칙
+    scripts/        HTML/PDF 렌더링 스크립트
+    references/     회의록 작성·발언자 식별 기준
+    examples/       공개 예시 JSON
 ```
 
 ---
@@ -174,7 +176,7 @@ python -X utf8 scripts\validate_skills.py
 - `official-report-skillset` SKILL.md 및 references 포함
 - `deep-research-pro` OpenClaw 맞춤 SKILL.md, 출처 기록, 보조 스크립트 포함
 - `hwpx-mouseco` 배포용 HWPX 템플릿 3종, 프로파일 3종, 예시 JSON 포함
-- `gov-meeting-brief` 회의결과보고 정리 규칙과 feature 문서 포함
+- `gov-meeting-minutes` 공문서형 회의록 PDF 생성 규칙, 렌더링 스크립트, feature 문서 포함
 - `python -X utf8 scripts\validate_skills.py` 통과
 - `hwpx-mouseco` 원페이퍼 생성 및 validate-only smoke test 통과
 
