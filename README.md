@@ -19,6 +19,7 @@
 | `deep-research-pro` | 공문서·정책보고서에 넣을 법령·지침·공식자료·통계·사례 근거를 출처와 함께 조사하는 심층 리서치 스킬 |
 | `hwpx-mouseco` | HWPX 보고서 양식을 분석하고, 공개 배포용 프로파일에 맞춰 원페이퍼·다중페이퍼·장문 보고서를 생성하는 스킬 |
 | `gov-meeting-minutes` | 공공기관 회의 메모·녹취록을 1쪽 회의록과 상세 발언록이 포함된 공문서형 PDF로 만드는 스킬 |
+| `transport-receipt-collector` | 출장·여비 정산용 하이패스 교통비 영수증을 PDF와 PNG 크롭본으로 수집하는 스킬 |
 
 ---
 
@@ -62,6 +63,20 @@
 
 ---
 
+## 🧾 transport-receipt-collector
+
+`transport-receipt-collector`는 출장·여비 정산에 필요한 교통비 증빙을 수집하는 스킬입니다. v0.1/v0.2 기준으로 하이패스 영수증 수집을 지원합니다.
+
+### 할 수 있는 일
+
+- `C:\Users\mouse\.openclaw\.env`의 `KGOV_HIPASS_ID`, `KGOV_HIPASS_PW`로 하이패스에 로그인합니다.
+- 지정 기간의 하이패스 사용내역을 조회합니다.
+- 선택한 1건의 영수증을 PDF로 저장합니다.
+- 제출용 PNG는 전체 페이지가 아니라 하이패스 영수증 사각형 영역만 크롭해 저장합니다.
+- `--headless` 옵션으로 창 없이 수집할 수 있습니다.
+
+---
+
 ## 🧩 hwpx-mouseco
 
 `hwpx-mouseco`는 한국 공공기관에서 자주 쓰는 한글 보고서 양식을 안전하게 다루기 위한 HWPX 문서 생성 스킬입니다.
@@ -90,6 +105,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/deep-research-pro
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/hwpx-mouseco
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/gov-meeting-minutes
+$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/transport-receipt-collector
 ```
 
 설치 후에는 새 세션에서 스킬이 인식되도록 Codex/OpenClaw를 다시 시작합니다.
@@ -126,6 +142,10 @@ skills/
     scripts/        HTML/PDF 렌더링 스크립트
     references/     회의록 작성·발언자 식별 기준
     examples/       공개 예시 JSON
+  transport-receipt-collector/
+    SKILL.md        교통비 영수증 수집 규칙
+    scripts/        하이패스 조회·영수증 저장 스크립트
+    references/     하이패스 provider 세부 기준
 ```
 
 ---
