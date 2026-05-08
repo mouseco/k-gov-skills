@@ -16,8 +16,9 @@ metadata:
 
 핵심 원칙은 간단하다.
 
-- 로그인과 본인확인은 사람이 직접 처리한다.
-- 스킬은 로그인 이후의 조회, 선택, 저장, 파일명 정리를 맡는다.
+- 기본 경로는 로컬 로그인 정보를 읽어 자동 로그인한다.
+- 사용자가 브라우저를 열어 직접 로그인해 둔 세션을 넘기는 방식은 대체 경로로만 쓴다.
+- 스킬은 조회, 선택, 저장, 파일명 정리까지 맡는다.
 - 영수증 산출물은 **PDF와 PNG**를 기본으로 한다.
 - JPG는 만들지 않는다.
 
@@ -42,7 +43,7 @@ metadata:
 | provider | 상태 | 기본 인증 방식 | 역할 |
 | --- | --- | --- | --- |
 | `hipass-idpw-login` | v0.1 기본값 | 로컬 실행 환경에서 읽은 ID/비밀번호 | 추가 본인확인 없이 로그인 가능한 경우 자동 로그인 후 조회·저장 |
-| `hipass-browser-session` | 대체 방식 | 사용자가 직접 로그인한 Chrome 세션 재사용 | ID/PW 자동 로그인이 막힐 때 같은 Chrome 세션으로 조회·저장 |
+| `hipass-browser-session` | 대체 방식 | 사용자가 직접 로그인한 Chrome 세션 재사용 | ID/PW 자동 로그인이 막힐 때만 같은 Chrome 세션으로 조회·저장 |
 | `korail-browser-session` | 예정 | 사용자 직접 로그인 세션 | 코레일 승차권·영수증 저장 |
 | `srt-browser-session` | 예정 | 사용자 직접 로그인 세션 | SRT 승차권·영수증 저장 |
 
@@ -147,13 +148,14 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 - 저장 위치: 지정이 없으면 `outputs/receipts/YYYY-MM/`
 - 출력 형식: 기본 `pdf,png`
 
-### 2. provider별 로그인 상태 확인
+### 2. provider별 인증 방식 확인
 
-하이패스 v0.1은 `hipass-browser-session`을 기본으로 사용한다.
+하이패스 v0.1/v0.2는 `hipass-idpw-login`을 기본으로 사용한다.
 
-- 사용자가 Chrome에서 공식 하이패스 홈페이지에 직접 로그인한다.
-- 스킬은 로그인된 Chrome 세션에 연결한다.
-- 세션 만료나 권한 확인 화면이 나오면 재로그인을 요구한다.
+- 사용자가 브라우저를 열어 공식 하이패스 홈페이지에 미리 로그인해 둘 필요가 없다.
+- 스킬은 로컬 환경변수의 `KGOV_HIPASS_ID`, `KGOV_HIPASS_PW`를 읽어 자동 로그인한다.
+- 추가 본인확인, CAPTCHA, 인증서 화면이 나오면 자동화를 멈추고 사용자 처리를 요구한다.
+- `hipass-browser-session`은 ID/PW 자동 로그인이 막힐 때만 쓰는 대체 경로다.
 
 하이패스 상세 절차가 필요하면 `references/hipass.md`를 읽는다.
 
@@ -181,8 +183,8 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 
 ## Failure modes
 
-- 로그인 세션 없음: 사용자가 공식 사이트에서 직접 로그인해야 한다.
-- 세션 만료: 다시 로그인해야 한다.
+- 로그인 정보 없음: `KGOV_HIPASS_ID`, `KGOV_HIPASS_PW`를 로컬 환경변수에 설정해야 한다.
+- 자동 로그인 실패: 필요 시 `--auth-mode session`으로 직접 로그인 세션 경로를 사용한다.
 - 추가 본인확인 발생: 자동화를 멈추고 사용자가 직접 처리해야 한다.
 - 조회 결과 없음: 기간, 카드, 차량, 청구일/거래일 조건을 다시 확인한다.
 - 영수증 출력 불가: 하이패스 안내 기준으로 후불카드 청구일 조회 등 일부 조건에서는 출력이 제한될 수 있다.

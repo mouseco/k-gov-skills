@@ -10,7 +10,7 @@
 
 **양식은 지키고, 작성 흐름은 줄이고, 결과물은 사람이 바로 검토할 수 있게 만드는 것**입니다.
 
-## 잠깐만~~~
+## 🚨 에이전트에 던지기 전에 하나만 더요
 
 이 저장소는 공개 배포를 전제로 다듬는 중입니다.
 
@@ -24,7 +24,7 @@
 | 정책·제도 심층조사 | `deep-research-pro` | 법령·지침·공식자료·통계·사례를 출처와 함께 조사해 보고서 근거 메모 작성 | 불필요(비공개 자료는 사용자 제공 필요) | [심층 리서치 가이드](docs/features/deep-research-pro.md) |
 | HWPX 보고서 생성 | `hwpx-mouseco` | 공개 배포용 HWPX 템플릿을 분석하고 원페이퍼·다중페이퍼·장문 보고서 생성·검증 | 템플릿/보고서 JSON 필요 | [HWPX 보고서 생성 가이드](docs/features/hwpx-mouseco.md) |
 | 회의록 PDF 작성 | `gov-meeting-minutes` | 회의 메모·ClovaNote 전사를 1쪽 회의록과 상세 발언록이 포함된 공문서형 PDF로 정리 | 회의 메모/전사 필요 | [회의록 PDF 작성 가이드](docs/features/gov-meeting-minutes.md) |
-| 교통비 증빙 수집 | `transport-receipt-collector` | 출장·여비 정산용 하이패스 영수증을 PDF와 PNG로 저장 | 하이패스 로그인 필요 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) |
+| 교통비 증빙 수집 | `transport-receipt-collector` | 출장·여비 정산용 하이패스 영수증을 PDF와 PNG로 저장. 브라우저 캐시 재사용이 아니라 로그인 정보를 읽어 자동으로 조회 | 하이패스 로그인 정보 필요 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) |
 
 ## 처음 시작하는 순서
 
