@@ -5,29 +5,28 @@ license: See docs/attribution.md
 metadata:
   category: utility
   locale: ko-KR
-  phase: v0.1
+  phase: v0.3
 ---
 
 # Transport Receipt Collector
 
 ## 목적
 
-출장·여비 정산에 필요한 교통비 증빙을 월별로 모으고, 제출 가능한 파일명과 형식으로 정리한다. v0.1의 1차 구현 대상은 **하이패스 영수증**이며, 코레일·SRT는 같은 provider 구조로 확장한다.
+출장·여비 정산에 필요한 교통비 증빙을 월별로 모으고, 제출 가능한 파일명과 형식으로 정리한다. 현재 지원 대상은 **하이패스, SRT, KTX/Korail** 3종이다.
 
 핵심 원칙은 간단하다.
 
-- 기본 경로는 로컬 로그인 정보를 읽어 자동 로그인한다.
-- 사용자가 브라우저를 열어 직접 로그인해 둔 세션을 넘기는 방식은 대체 경로로만 쓴다.
-- 스킬은 조회, 선택, 저장, 파일명 정리까지 맡는다.
-- 영수증 산출물은 **PDF와 PNG**를 기본으로 한다.
+- 추가 본인확인과 CAPTCHA는 사람이 직접 처리한다.
+- 스킬은 가능한 범위의 로그인, 조회, 선택, 저장, 파일명 정리를 맡는다.
+- 영수증 산출물은 provider별로 **PDF, PNG, redacted JSON**을 저장한다.
 - JPG는 만들지 않는다.
 
 ## When to use
 
 - 하이패스 사용내역 영수증을 월별로 모아야 할 때
-- 출장비 정산용 교통비 증빙을 PDF와 PNG로 저장해야 할 때
-- 코레일·SRT 영수증 수집 스킬을 같은 구조로 확장해야 할 때
-- 로그인 이후 공식 사이트의 영수증 출력 화면을 안전하게 자동화해야 할 때
+- SRT 이용내역 영수증을 PNG로 저장해야 할 때
+- KTX/Korail 구입이력의 코레일톡 스타일 영수증 PNG와 redacted JSON을 저장해야 할 때
+- 출장비 정산용 교통비 증빙을 한 스킬에서 provider별로 정리해야 할 때
 
 ## When not to use
 
@@ -42,10 +41,11 @@ metadata:
 
 | provider | 상태 | 기본 인증 방식 | 역할 |
 | --- | --- | --- | --- |
-| `hipass-idpw-login` | v0.1 기본값 | 로컬 실행 환경에서 읽은 ID/비밀번호 | 추가 본인확인 없이 로그인 가능한 경우 자동 로그인 후 조회·저장 |
-| `hipass-browser-session` | 대체 방식 | 사용자가 직접 로그인한 Chrome 세션 재사용 | ID/PW 자동 로그인이 막힐 때만 같은 Chrome 세션으로 조회·저장 |
-| `korail-browser-session` | 예정 | 사용자 직접 로그인 세션 | 코레일 승차권·영수증 저장 |
-| `srt-browser-session` | 예정 | 사용자 직접 로그인 세션 | SRT 승차권·영수증 저장 |
+| `hipass-idpw-login` | v0.3 지원 | 로컬 실행 환경에서 읽은 계정 정보 | 추가 본인확인 없이 로그인 가능한 경우 자동 로그인 후 조회·저장 |
+| `hipass-browser-session` | 대체 방식 | 사용자가 직접 로그인한 Chrome 세션 재사용 | ID/PW 자동 로그인이 막힐 때 같은 Chrome 세션으로 조회·저장 |
+| `korail-local-connector` | v0.3 지원 | KTX 계정 환경변수 + 로컬/private 커넥터 | 공개 저장소에는 내부 호출 세부사항을 두지 않고, 로컬 커넥터를 통해 영수증 PNG/JSON 저장 |
+| `korail-browser-session` | v0.2 대체 지원 | 사용자 직접 로그인 세션 | 코레일/KTX 웹 구입이력 영수증 화면을 PNG로 크롭 저장 |
+| `srt-browser-session` | v0.3 지원 | 사용자 직접 로그인 세션 또는 로컬 계정 정보 | SRT 승차권 구입이력 영수증 화면을 PNG로 저장 |
 
 새 provider를 붙일 때는 아래 항목을 먼저 정한다.
 
@@ -68,12 +68,13 @@ metadata:
 
 ## Output rule
 
-기본 산출물은 항상 같은 base name의 PDF와 PNG다.
+기본 산출물은 provider별 특성에 맞춰 같은 base name으로 저장한다.
 
 ```text
 outputs/receipts/YYYY-MM/
   YYYY-MM-DD_provider_route_or_train_amount.pdf
   YYYY-MM-DD_provider_route_or_train_amount.png
+  YYYY-MM-DD_provider_route_or_train_amount.json
 ```
 
 예시:
@@ -86,10 +87,11 @@ outputs/receipts/2026-05/
 
 PNG 생성 우선순위:
 
-1. 1건 기준으로 영수증 출력 화면의 하이패스 사각형 영수증 영역만 PNG로 캡처한다.
-2. 영수증 영역 자동 감지가 실패하면 현재 하이패스 출력 화면의 좌측 영수증 기본 위치를 고정 크롭한다.
-3. PDF만 확보된 경우 PDF 첫 페이지를 PNG로 렌더링한다.
-4. 둘 다 실패하면 영수증 팝업 URL, 화면 제목, 실패 사유를 남기고 사용자가 수동 저장할 수 있게 한다.
+1. KTX/Korail은 로컬/private 커넥터가 반환한 공식 영수증 데이터로 확정된 v3 코레일톡 스타일 PNG를 렌더링한다.
+2. 하이패스는 1건 기준으로 영수증 출력 화면의 사각형 영수증 영역만 PNG로 캡처한다.
+3. SRT는 영수증 화면의 본문 영역을 PNG로 저장한다.
+4. PDF만 확보된 경우 PDF 첫 페이지를 PNG로 렌더링한다.
+5. 둘 다 실패하면 영수증 팝업 URL, 화면 제목, 실패 사유를 남기고 사용자가 수동 저장할 수 있게 한다.
 
 ## Standalone script
 
@@ -99,13 +101,15 @@ PNG 생성 우선순위:
 node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs --help
 ```
 
-하이패스 로그인용 Chrome 실행문 출력:
+공식 사이트 로그인용 Chrome 실행문 출력:
 
 ```powershell
 node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs chrome-command --provider hipass --debugging-port 9222
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs chrome-command --provider korail --debugging-port 9222
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs chrome-command --provider srt --debugging-port 9222
 ```
 
-하이패스 사용내역 조회 기본값은 ID/PW 자동 로그인이다. 스크립트는 기본적으로 `C:\Users\mouse\.openclaw\.env`를 로드하며, 아래 키를 사용한다.
+하이패스 사용내역 조회 기본값은 로컬 계정 환경변수 기반 자동 로그인이다. 스크립트는 기본적으로 `C:\Users\mouse\.openclaw\.env`를 로드하며, 아래 키를 사용한다.
 
 ```text
 KGOV_HIPASS_ID=...
@@ -128,6 +132,56 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs l
 node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect --provider hipass --start-date 2026-05-01 --end-date 2026-05-31 --row-index 1 --cdp-url http://127.0.0.1:9222 --output-dir outputs\receipts\2026-05
 ```
 
+KTX/SRT 자동 로그인 후 구입이력/영수증 화면 진입:
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs open-history --provider korail --cdp-url http://127.0.0.1:9222
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs open-history --provider srt --cdp-url http://127.0.0.1:9222
+```
+
+KTX/SRT 현재 영수증 화면 크롭 저장:
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs capture-current --provider korail --cdp-url http://127.0.0.1:9222 --output-dir outputs\receipts\2026-05
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs capture-current --provider srt --cdp-url http://127.0.0.1:9222 --output-dir outputs\receipts\2026-05
+```
+
+SRT 자동 로그인 → 이용내역 조회 → 선택 행 영수증 PNG 저장:
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider srt --start-date 2026-02-09 --end-date 2026-05-09 --row-index 1 --output-dir outputs\receipts\2026-05
+```
+
+KTX/Korail 로컬 커넥터 기반 영수증 저장:
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2026-02-09 --end-date 2026-05-09 --row-index 1 --output-dir outputs\receipts\2026-05
+```
+
+위 명령은 기본적으로 최종 확정된 코레일톡 스타일 영수증 PNG와 redacted JSON을 저장한다. 목록만 확인하려면 `--list-only`를 붙인다.
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2026-02-09 --end-date 2026-05-09 --list-only
+```
+
+- 공개 저장소에는 Korail 내부 호출 URL, endpoint명, 파라미터명을 문서화하지 않는다.
+- Korail 경로는 `KGOV_KORAIL_CONNECTOR`로 지정한 로컬/private 커넥터를 통해 실행한다.
+- 정산 증빙의 기본 원칙은 **공식 영수증 데이터로 만든 코레일톡 스타일 영수증 PNG**를 산출하는 것이다.
+- 2026-05-11 실제 코레일톡 저장본 기준 검수로 `v3` 템플릿을 최종 기준으로 확정했다. 기준은 코레일톡 실제 저장본에서 QR 상단 영역을 제외한 짧은 영수증 본문 이미지다.
+- 기본 `collect-latest --provider korail` 실행은 로컬 커넥터가 설정된 경우 이 최종 템플릿 PNG를 생성한다. 데이터 점검만 할 때는 `--list-only` 또는 `--no-render-local`을 사용한다.
+
+자동 로그인부터 현재 화면 캡처까지 한 번에 시도:
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-current --provider srt --cdp-url http://127.0.0.1:9222 --output-dir outputs\receipts\2026-05
+```
+
+화면 자동 감지가 맞지 않으면 수동 크롭 좌표를 준다.
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs capture-current --provider korail --crop 120,180,760,620 --output-dir outputs\receipts\2026-05 --base-name 2026-05-09_korail_receipt
+```
+
 v2 headless 모드:
 
 ```powershell
@@ -148,16 +202,17 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 - 저장 위치: 지정이 없으면 `outputs/receipts/YYYY-MM/`
 - 출력 형식: 기본 `pdf,png`
 
-### 2. provider별 인증 방식 확인
+### 2. provider별 로그인 상태 확인
 
-하이패스 v0.1/v0.2는 `hipass-idpw-login`을 기본으로 사용한다.
+provider별로 가능한 자동 로그인 경로를 먼저 사용한다.
 
-- 사용자가 브라우저를 열어 공식 하이패스 홈페이지에 미리 로그인해 둘 필요가 없다.
-- 스킬은 로컬 환경변수의 `KGOV_HIPASS_ID`, `KGOV_HIPASS_PW`를 읽어 자동 로그인한다.
-- 추가 본인확인, CAPTCHA, 인증서 화면이 나오면 자동화를 멈추고 사용자 처리를 요구한다.
-- `hipass-browser-session`은 ID/PW 자동 로그인이 막힐 때만 쓰는 대체 경로다.
+- 하이패스는 기본적으로 저장된 로컬 계정 정보로 자동 로그인을 시도한다.
+- KTX/SRT는 기존 예매 스킬과 같은 로컬 계정 환경변수로 자동 로그인한다.
+- 세션 만료나 추가 본인확인 화면이 나오면 자동화를 중단하고 사유를 남긴다.
 
 하이패스 상세 절차가 필요하면 `references/hipass.md`를 읽는다.
+
+코레일/KTX 또는 SRT 승차권 구입이력 영수증 크롭 절차가 필요하면 `references/korail-srt.md`를 읽는다.
 
 ### 3. 사용내역 또는 영수증 목록 조회
 
@@ -183,8 +238,8 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 
 ## Failure modes
 
-- 로그인 정보 없음: `KGOV_HIPASS_ID`, `KGOV_HIPASS_PW`를 로컬 환경변수에 설정해야 한다.
-- 자동 로그인 실패: 필요 시 `--auth-mode session`으로 직접 로그인 세션 경로를 사용한다.
+- 로그인 세션 없음: 사용자가 공식 사이트에서 직접 로그인해야 한다.
+- 세션 만료: 다시 로그인해야 한다.
 - 추가 본인확인 발생: 자동화를 멈추고 사용자가 직접 처리해야 한다.
 - 조회 결과 없음: 기간, 카드, 차량, 청구일/거래일 조건을 다시 확인한다.
 - 영수증 출력 불가: 하이패스 안내 기준으로 후불카드 청구일 조회 등 일부 조건에서는 출력이 제한될 수 있다.
@@ -192,8 +247,8 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 
 ## Done when
 
-- 요청 기간의 하이패스 영수증 대상 목록을 확인했다.
-- 각 대상에 대해 PDF와 PNG 저장을 시도했다.
+- 요청 기간의 provider별 영수증 대상 목록을 확인했다.
+- 각 대상에 대해 provider별 산출물 저장을 시도했다.
 - 저장된 파일의 경로와 실패한 항목의 사유를 보고했다.
 - 비밀번호, 인증번호, 인증서 파일, 카드번호 원문이 저장소나 로그에 남지 않았다.
 

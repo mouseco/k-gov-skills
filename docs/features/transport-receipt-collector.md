@@ -1,39 +1,41 @@
 # 교통비 증빙 수집 가이드
 
-출장·여비·교통비 정산에 필요한 영수증을 PDF와 PNG 파일로 정리할 때 쓰는 스킬입니다.
+출장·여비·교통비 정산에 필요한 교통 영수증을 PDF/PNG/JSON 산출물로 정리하는 스킬입니다.
 
-v0.1/v0.2 기준으로는 **하이패스 영수증 수집**을 1차 대상으로 합니다. 코레일·SRT 영수증은 같은 구조로 확장할 수 있도록 provider 구조를 남겨 둡니다.
+현재 지원 provider는 **하이패스, SRT, KTX/Korail** 3종입니다.
 
 ## 이 기능으로 할 수 있는 일
 
-- 하이패스 사용내역 조회
-- 지정 기간의 영수증 출력 화면 진입
-- 영수증 PDF 저장
-- 제출용 PNG 크롭본 저장
+- 하이패스 사용내역 조회 및 영수증 PDF/PNG 저장
+- SRT 이용내역 조회 및 영수증 PNG 저장
+- KTX/Korail 승차권 구입이력 조회
+- KTX/Korail 로컬 커넥터 기반 영수증 데이터 조회
+- KTX/Korail 코레일톡 스타일 영수증 PNG 저장
 - 월별 폴더와 일관된 파일명으로 증빙 정리
-- headless 모드로 창 없이 수집
+- headless 모드 또는 로컬 커넥터 기반 백그라운드 수집
 - 실패 항목과 실패 사유 요약
 
 ## 먼저 알아둘 점
 
-- 하이패스는 사용자가 브라우저를 열어 미리 로그인해 둘 필요가 없습니다.
-- 필요한 것은 로그인 상태가 아니라 로컬에 저장된 로그인 정보(`KGOV_HIPASS_ID`, `KGOV_HIPASS_PW`)입니다.
-- 스킬이 해당 정보를 읽어 자동 로그인 후 조회·저장까지 진행합니다.
+- 하이패스는 `KGOV_HIPASS_ID`, `KGOV_HIPASS_PW`로 자동 로그인합니다.
+- SRT는 로컬 SRT 계정 환경변수를 사용합니다.
+- KTX/Korail은 공개 저장소에 세부 구현을 두지 않고 로컬/private 커넥터를 통해 처리합니다.
 - 추가 본인확인, CAPTCHA, 인증서 조작, 2차 인증 자동 통과는 공개 스킬 범위 밖입니다.
-- 계정 비밀번호, 인증번호, 카드번호 원문은 저장소나 로그에 남기지 않습니다.
+- 계정 비밀번호, 인증번호, 카드번호 원문, 승차권 토큰은 저장소나 로그에 남기지 않습니다.
 
 ## 입력
 
-- provider: `hipass`, `korail`, `srt`, `all`
+- provider: `hipass`, `korail`, `srt`
 - 시작일과 종료일
 - 저장 폴더
-- 선택 항목: 전체 저장 또는 특정 건 저장
-- 선택 옵션: `--headless`, 필요 시 대체 경로인 `--auth-mode session`
+- 선택 항목: row index 또는 전체 저장 확장
+- 선택 옵션: `--headless`, `--auth-mode session`, `--list-only`, `--no-render-local`
 
 ## 출력
 
-- PDF 영수증
-- PNG 영수증 이미지
+- 하이패스: PDF + PNG
+- SRT: PNG
+- KTX/Korail: 코레일톡 스타일 PNG + redacted JSON
 - 성공·실패 요약
 - 실패한 항목의 사유
 
@@ -43,19 +45,21 @@ v0.1/v0.2 기준으로는 **하이패스 영수증 수집**을 1차 대상으로
 outputs/receipts/2026-05/
   2026-05-03_hipass_서울TG-동대구TG_12800.pdf
   2026-05-03_hipass_서울TG-동대구TG_12800.png
+  2026-04-21_korail_오송-동대구_24800.png
+  2026-04-21_korail_오송-동대구_24800.json
 ```
 
 ## 기본 흐름
 
 1. provider와 기간을 확인합니다.
-2. 하이패스는 로컬 환경변수의 ID/PW를 읽어 자동 로그인합니다.
-3. 추가 본인확인이 나오면 자동화를 중단하고 사용자가 직접 처리합니다.
-4. 사용내역 또는 영수증 목록을 조회합니다.
-5. 대상 건의 영수증 출력 화면에 진입합니다.
-6. PDF와 PNG를 같은 base name으로 저장합니다.
+2. provider별 인증 정보를 읽습니다.
+3. 추가 본인확인이 나오면 자동화를 중단합니다.
+4. 사용내역 또는 승차권 구입이력을 조회합니다.
+5. 대상 건의 영수증 데이터를 조회합니다.
+6. 제출 가능한 PNG/PDF 산출물을 저장합니다.
 7. 저장된 파일과 실패 항목을 요약합니다.
 
-## 하이패스 v0.1/v0.2
+## 하이패스
 
 하이패스는 ID/비밀번호 자동 로그인을 기본값으로 합니다.
 
@@ -66,36 +70,55 @@ outputs/receipts/2026-05/
 - 대상 건의 영수증 출력 화면 또는 팝업을 엽니다.
 - PDF와 PNG를 저장합니다.
 
-기본 경로는 사용자가 브라우저를 열어 직접 로그인해 둔 세션을 재사용하지 않습니다. `--auth-mode session`은 ID/PW 자동 로그인이 막힐 때만 쓰는 대체 경로입니다. 추가 본인확인이 나오면 자동화를 중단합니다.
-
-v2 headless 모드는 `--headless`로 실행합니다. 이 모드는 ID/PW 자동 로그인 전용이며, 브라우저 세션 재사용 방식과 함께 쓰지 않습니다.
-
-## 사용 예시
-
-```text
-지난달 하이패스 영수증을 PDF랑 PNG로 정리해줘.
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect --provider hipass --start-date 2026-05-01 --end-date 2026-05-31 --row-index 1 --headless --output-dir outputs\receipts\2026-05
 ```
 
-```text
-2026-05-01부터 2026-05-07까지 하이패스 사용내역 중 출장 정산용 영수증 저장해줘.
+## SRT
+
+SRT는 자동 로그인 후 이용내역 조회와 영수증 화면 캡처를 지원합니다.
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider srt --start-date 2026-02-09 --end-date 2026-05-09 --row-index 1 --output-dir outputs\receipts\2026-05
+```
+
+## KTX/Korail
+
+KTX/Korail은 공개 저장소에 내부 호출 세부사항을 포함하지 않습니다. 공개 스킬은 로컬/private 커넥터를 호출하는 구조만 제공합니다.
+
+기본 실행은 실제 코레일톡 저장본 기준으로 확정한 **v3 코레일톡 스타일 영수증 PNG**와 redacted JSON을 저장합니다. 이 기능을 쓰려면 `KGOV_KORAIL_CONNECTOR`에 로컬 커넥터 스크립트 경로를 지정합니다.
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2025-05-11 --end-date 2026-05-11 --row-index 20 --output-dir outputs\receipts\2026-05
+```
+
+목록만 확인하려면:
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2025-05-11 --end-date 2026-05-11 --list-only
+```
+
+렌더링 없이 API 응답 확인만 하려면:
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2025-05-11 --end-date 2026-05-11 --row-index 1 --no-render-local
 ```
 
 ## 결과 확인 포인트
 
-- PDF와 PNG가 같은 거래를 가리키는가
-- PNG가 전체 페이지가 아니라 영수증 영역 중심으로 잘렸는가
+- PDF/PNG가 같은 거래를 가리키는가
 - 파일명에 날짜, provider, 구간, 금액이 들어갔는가
 - 조회 기간이 사용자가 요청한 기간과 맞는가
 - 실패 항목의 사유가 남아 있는가
-- 계정정보나 카드번호 원문이 로그에 남지 않았는가
+- 계정정보, 카드번호 원문, 승차권 토큰이 로그에 남지 않았는가
 
 ## 주의할 점
 
 - ID/PW 환경변수가 없으면 로컬 환경변수에 먼저 설정합니다.
-- 자동 로그인 실패나 세션 만료가 발생할 때만 직접 로그인 세션 방식으로 재시도할 수 있습니다.
-- 조회 결과가 없으면 기간, 날짜 기준, 카드 조건을 다시 확인합니다.
-- PNG 저장이 실패하면 PDF 첫 페이지를 PNG로 렌더링합니다.
-- 영수증 출력이 제한되는 조건이면 공식 사이트 안내를 따릅니다.
+- 자동 로그인 실패나 세션 만료가 발생할 수 있습니다.
+- 조회 결과가 없으면 기간, 날짜 기준, 카드/승차권 조건을 다시 확인합니다.
+- 하이패스 PNG 저장이 실패하면 PDF 첫 페이지를 PNG로 렌더링합니다.
+- KTX/Korail 로컬 커넥터는 외부 서비스 변경 시 재검증이 필요합니다.
 
 ## 관련 파일
 
@@ -103,6 +126,7 @@ v2 headless 모드는 `--headless`로 실행합니다. 이 모드는 ID/PW 자�
 skills/transport-receipt-collector/
   SKILL.md
   references/hipass.md
+  references/korail-srt.md
   scripts/collect_transport_receipts.cjs
 docs/features/transport-receipt-collector.md
 ```

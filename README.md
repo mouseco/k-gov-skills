@@ -26,7 +26,7 @@
 | 정책·제도 심층조사 | `deep-research-pro` | 법령·지침·공식자료·통계·사례를 출처와 함께 조사해 보고서 근거 메모 작성 | 불필요(비공개 자료는 사용자 제공 필요) | [심층 리서치 가이드](docs/features/deep-research-pro.md) |
 | HWPX 보고서 생성 | `hwpx-mouseco` | 공개 배포용 HWPX 템플릿을 분석하고 원페이퍼·다중페이퍼·장문 보고서 생성·검증 | 템플릿/보고서 JSON 필요 | [HWPX 보고서 생성 가이드](docs/features/hwpx-mouseco.md) |
 | 회의록 PDF 작성 | `gov-meeting-minutes` | 회의 메모·ClovaNote 전사를 1쪽 회의록과 상세 발언록이 포함된 공문서형 PDF로 정리 | 회의 메모/전사 필요 | [회의록 PDF 작성 가이드](docs/features/gov-meeting-minutes.md) |
-| 교통비 증빙 수집 | `transport-receipt-collector` | 출장·여비 정산용 하이패스 영수증을 PDF와 PNG로 저장. 브라우저 캐시 재사용이 아니라 로그인 정보를 읽어 자동으로 조회 | 하이패스 로그인 정보 필요 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) |
+| 교통비 증빙 수집 | `transport-receipt-collector` | 출장·여비 정산용 하이패스·SRT·KTX/Korail 영수증을 PDF/PNG/JSON 산출물로 정리 | provider별 로컬 계정 정보 필요 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) |
 
 ## 처음 시작하는 순서
 
@@ -93,7 +93,7 @@ skills/
 - 생성 결과물, 임시 압축 해제 폴더, 테스트 산출물은 커밋하지 않습니다.
 - 공개 배포용으로 정리된 템플릿과 예시만 포함합니다.
 - 리서치 스킬의 다운로드 원문 PDF나 비공개 자료는 커밋하지 않습니다.
-- 계정 ID, 비밀번호, 인증번호, 내부 경로는 문서와 로그에 남기지 않습니다.
+- 계정 ID, 계정 비밀값, 인증번호, 내부 경로는 문서와 로그에 남기지 않습니다.
 
 ## 검증
 
