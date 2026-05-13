@@ -1,6 +1,6 @@
 # HWP/HWPX 문서 읽기·변환 가이드
 
-HWP/HWPX/HWPML 문서를 AI가 읽을 수 있는 Markdown 또는 JSON으로 변환하는 스킬입니다. ALIO 내부규정, 공공기관 공시 첨부문서, 공개 HWP 자료를 검토할 때 사용합니다.
+`read-hwp`는 HWP/HWPX/HWPML 문서를 AI가 읽을 수 있는 Markdown 또는 JSON으로 변환하는 스킬입니다. ALIO 내부규정, 공공기관 공시 첨부문서, 공개 HWP 자료를 검토할 때 사용합니다.
 
 ## 이 기능으로 할 수 있는 일
 
@@ -35,12 +35,12 @@ ALIO 내부규정은 화면에 전문이 바로 보이지 않고 ZIP/HWP/HWPX/PD
 1. `alio` 스킬로 기관의 내부규정 목록을 조회합니다.
 2. 규정 상세에서 첨부파일 번호와 파일명을 확인합니다.
 3. ZIP이면 압축을 풀고 최신 시행일 파일을 고릅니다.
-4. HWP/HWPX/HWPML이면 이 `hwp` 스킬로 Markdown 또는 JSON으로 변환합니다.
+4. HWP/HWPX/HWPML이면 이 `read-hwp` 스킬로 Markdown 또는 JSON으로 변환합니다.
 5. 조항 번호, 시행일, 개정 이력, 본문 내용을 확인합니다.
 
 ## `hwpx-mouseco`/`hwpxskill`과의 차이
 
-- `hwp`: 기존 HWP/HWPX 문서를 **읽고 변환**합니다.
+- `read-hwp`: 기존 HWP/HWPX 문서를 **읽고 변환**합니다.
 - `hwpx-mouseco` 또는 로컬 `hwpxskill`: 템플릿과 profile을 기준으로 공공 보고서 HWPX를 **생성**합니다.
 - 바이너리 HWP 직접 편집은 이 스킬의 범위가 아닙니다.
 

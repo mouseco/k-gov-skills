@@ -40,10 +40,11 @@
 
 원 `hipass-receipt`의 MIT 라이선스와 출처를 존중한다. 이 저장소의 문서는 공공기관 정산 업무에 맞춘 적응본이며, 원 구현의 권리는 원 출처에 있다.
 
-## hwp
+## read-hwp
 
 - 성격: `NomaDamas/k-skill` 계열에서 사용하던 HWP/HWPX 읽기·변환 스킬을 공공기관 문서 검토 흐름에 맞게 포함한 스킬
 - 확인된 로컬 원본 위치: `C:\Users\mouse\.agents\skills\hwp`
+- k-gov 저장소 반영 이름: `read-hwp`
 - k-gov 저장소 반영 성격: ALIO 내부규정, 공공기관 첨부 HWP/HWPX 문서를 Markdown/JSON으로 읽기 위한 보조 스킬
 
 ### 주요 수정 방향

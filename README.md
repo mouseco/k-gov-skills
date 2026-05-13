@@ -28,7 +28,7 @@
 | 회의록 PDF 작성 | `gov-meeting-minutes` | 회의 메모·ClovaNote 전사를 1쪽 회의록과 상세 발언록이 포함된 공문서형 PDF로 정리 | 회의 메모/전사 필요 | [회의록 PDF 작성 가이드](docs/features/gov-meeting-minutes.md) |
 | 교통비 증빙 수집 | `transport-receipt-collector` | 출장·여비 정산용 하이패스·SRT·KTX/Korail 영수증을 PDF/PNG/JSON 산출물로 정리 | provider별 로컬 계정 정보 필요 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) |
 | ALIO 기관별 공시 상세 확인 | `alio` | ALIO 기관별 공시에서 공공기관별 일반현황·임직원·임원·재무·주요사업 등 상세 공시를 확인해 근거 메모로 정리 | 불필요 | [ALIO 기관별 공시 상세 확인 가이드](docs/features/alio.md) |
-| HWP/HWPX 문서 읽기·변환 | `hwp` | HWP/HWPX/HWPML 문서를 Markdown/JSON으로 변환해 ALIO 내부규정·공시 첨부문서를 읽고 조항을 확인 | 문서 파일 필요 | [HWP/HWPX 문서 읽기·변환 가이드](docs/features/hwp.md) |
+| HWP/HWPX 문서 읽기·변환 | `read-hwp` | HWP/HWPX/HWPML 문서를 Markdown/JSON으로 변환해 ALIO 내부규정·공시 첨부문서를 읽고 조항을 확인 | 문서 파일 필요 | [HWP/HWPX 문서 읽기·변환 가이드](docs/features/read-hwp.md) |
 
 ## 처음 시작하는 순서
 
@@ -47,7 +47,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/gov-meeting-minutes
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/transport-receipt-collector
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/alio
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/hwp
+$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/read-hwp
 ```
 
 ## 문서
@@ -63,7 +63,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 | [회의록 PDF 작성 가이드](docs/features/gov-meeting-minutes.md) | 회의록 요약본과 상세 발언록 생성 |
 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) | 하이패스 영수증 PDF/PNG 저장 |
 | [ALIO 기관별 공시 상세 확인 가이드](docs/features/alio.md) | 공공기관별 경영공시 상세내용 확인 |
-| [HWP/HWPX 문서 읽기·변환 가이드](docs/features/hwp.md) | HWP/HWPX/HWPML 문서 변환과 조항 확인 |
+| [HWP/HWPX 문서 읽기·변환 가이드](docs/features/read-hwp.md) | HWP/HWPX/HWPML 문서 변환과 조항 확인 |
 
 ## 포함된 기능
 
@@ -73,7 +73,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 - [회의록 PDF 작성](docs/features/gov-meeting-minutes.md)
 - [교통비 증빙 수집](docs/features/transport-receipt-collector.md)
 - [ALIO 기관별 공시 상세 확인](docs/features/alio.md)
-- [HWP/HWPX 문서 읽기·변환](docs/features/hwp.md)
+- [HWP/HWPX 문서 읽기·변환](docs/features/read-hwp.md)
 
 ## 저장소 구조
 
@@ -92,7 +92,7 @@ skills/
   gov-meeting-minutes/       회의록 PDF 생성 규칙과 렌더링 스크립트
   transport-receipt-collector/ 교통비 영수증 수집 스크립트
   alio/                    ALIO 기관별 공시 상세내용 확인 기준
-  hwp/                     HWP/HWPX/HWPML 문서 읽기·변환 기준
+  read-hwp/                HWP/HWPX/HWPML 문서 읽기·변환 기준
 ```
 
 ## 공개 배포 기준

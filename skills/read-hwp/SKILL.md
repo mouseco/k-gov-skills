@@ -1,5 +1,5 @@
 ---
-name: hwp
+name: read-hwp
 description: Use kordoc for agent-native HWP/HWPX document parsing, JSON extraction, diffing, form-field extraction, and Markdown→HWPX reverse conversion (read/convert only — for binary editing use rhwp-edit).
 license: MIT
 metadata:
@@ -17,7 +17,7 @@ metadata:
 
 이 스킬의 기본 엔진은 **항상 `kordoc`** 이다. 문서 변환, 비교, 필드 추출, 역변환까지 같은 도구로 일관되게 처리한다.
 
-> **스킬 라우팅** — 이 `hwp` 스킬은 **조회/변환(read-only)** 전용이다.
+> **스킬 라우팅** — 이 `read-hwp` 스킬은 **조회/변환(read-only)** 전용이다.
 > HWP 바이너리 **편집**(본문 텍스트 삽입/삭제, 표 생성, 셀 수정, replace-all)은 [`rhwp-edit`](../rhwp-edit/SKILL.md) 스킬이,
 > 레이아웃 디버깅·IR 덤프·썸네일·배포용 문서 잠금 해제 같은 **고급 검사**는 [`rhwp-advanced`](../rhwp-advanced/SKILL.md) 스킬이 맡는다.
 
