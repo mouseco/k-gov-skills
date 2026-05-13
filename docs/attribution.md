@@ -40,6 +40,22 @@
 
 원 `hipass-receipt`의 MIT 라이선스와 출처를 존중한다. 이 저장소의 문서는 공공기관 정산 업무에 맞춘 적응본이며, 원 구현의 권리는 원 출처에 있다.
 
+## hwp
+
+- 성격: `NomaDamas/k-skill` 계열에서 사용하던 HWP/HWPX 읽기·변환 스킬을 공공기관 문서 검토 흐름에 맞게 포함한 스킬
+- 확인된 로컬 원본 위치: `C:\Users\mouse\.agents\skills\hwp`
+- k-gov 저장소 반영 성격: ALIO 내부규정, 공공기관 첨부 HWP/HWPX 문서를 Markdown/JSON으로 읽기 위한 보조 스킬
+
+### 주요 수정 방향
+
+- 공개 저장소용 feature 문서 추가
+- ALIO 내부규정 ZIP/HWP/HWPX 첨부 확인 흐름과 연결
+- `hwpx-mouseco`/로컬 `hwpxskill`의 HWPX 생성 역할과 구분
+
+### 라이선스 주의
+
+원 스킬과 `kordoc` 등 사용 도구의 라이선스와 출처를 존중한다. 이 저장소의 문서는 공공기관 공개문서 읽기·검토 업무에 맞춘 배포용 정리본이다.
+
 ## mouseco 작성 스킬
 
 아래 스킬은 이 저장소의 공공문서 자동화 목적에 맞춰 작성·정리한 스킬이다.
