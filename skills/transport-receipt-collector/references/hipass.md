@@ -32,7 +32,7 @@ v0.1 기본 provider는 `hipass-browser-session`이다.
 조건:
 
 - ID와 비밀번호는 대화나 저장소에 남기지 않는다.
-- 기본 env 파일은 `C:\Users\mouse\.openclaw\.env`이며, ID는 `KGOV_HIPASS_ID`, 비밀번호는 `KGOV_HIPASS_PW`에서 읽는다.
+- 기본 env 파일은 사용자 홈 아래의 OpenClaw 환경파일(`.openclaw/.env`)이며, ID는 `KGOV_HIPASS_ID`, 비밀번호는 `KGOV_HIPASS_PW`에서 읽는다.
 - 휴대전화 인증, 이메일 인증, SNS 인증, 공동인증서, 아이핀, 비밀번호 변경 안내, CAPTCHA가 나오면 즉시 중단한다.
 - 자동 로그인 실패 시 브라우저 직접 로그인 세션 방식으로 전환할 수 있다.
 

@@ -8,7 +8,11 @@
 
 `k-gov-skills`는 [`NomaDamas/k-skill`](https://github.com/NomaDamas/k-skill)의 스킬 구조와 문서화 방식을 참고했습니다. 다만 방향은 조금 다릅니다. `k-skill`이 한국 생활·업무 전반의 자동화 모음이라면, `k-gov-skills`는 **공무원·공공기관 문서 업무**에 초점을 둡니다.
 
-특히 `read-hwp`와 `korean-law-search`는 `NomaDamas/k-skill` 계열 원본을 공공기관 문서·법령 근거조사에 필요해 가져온 뒤, 공개 배포와 k-gov 업무 흐름에 맞게 일부만 가공한 파생·적응본입니다. 순수 창작 스킬로 표시하지 않으며, 원 출처와 사용 도구의 권리를 존중합니다.
+## 외부 원본 사용 고지
+
+`read-hwp`와 `korean-law-search`는 `NomaDamas/k-skill` 계열 원본을 공공기관 문서·법령 근거조사에 필요해 가져온 뒤, 공개 배포와 k-gov 업무 흐름에 맞게 **일부만 가공한 파생·적응본**입니다.
+
+두 스킬은 이 저장소의 순수 창작 스킬로 표시하지 않습니다. 원 출처, 원 저작자, `kordoc`, `korean-law-mcp`, 법제처 Open API, 법망 등 사용 도구·서비스의 권리와 이용 조건을 존중합니다. 자세한 출처와 수정 범위는 [`docs/attribution.md`](docs/attribution.md)에 따로 기록했습니다.
 
 핵심은 단순 자동화가 아닙니다.
 
