@@ -23,6 +23,7 @@
 - 최근공시: `https://alio.go.kr/status/recentDisclosureList.do`
 - 감사원/주무부처 지적사항: `https://alio.go.kr/occasional/auditPointList.do`
 - 내부·외부 감사결과: `https://alio.go.kr/occasional/boardDirectorsList.do?reportType=43006`
+- 내부규정: `https://alio.go.kr/occasional/ruleList.do`
 
 ## 기관 식별 절차
 
@@ -96,6 +97,16 @@ https://alio.go.kr/statisticsSearch/findSingleItemSearchList.json?pageNo=1&count
 ```
 
 감사결과는 목록 제목만으로 결론내지 말고 상세 `doc.html`과 첨부 PDF/HWP까지 확인한다. 특히 `유출`, `징계`, `비위`, `보안`처럼 민감한 키워드는 `실제 발생`, `발생 여부 점검`, `위험/우려`, `모범사례`를 분리한다.
+
+내부규정은 아래 JSON과 다운로드 경로를 쓴다.
+
+```text
+/occasional/findRuleList.json?type=apbaNa&word=<기관명>&pageNo=<페이지>&divis=<분류코드>
+/occasional/findRuleDtl.json?seq=<규정 seq>
+/download/rulefiledown.json?fileNo=<파일번호>
+```
+
+분류코드 예시는 `K1500=정관`, `K1100=인사·복무·징계`, `K1200=보수`, `K1300=직제`, `K1400=기타`다. 상세 JSON의 `bFiles`는 `파일번호|파일명` 형식이며, ZIP으로 여러 개정본 HWP가 묶여 있을 수 있다. ALIO 화면에서 본문을 HTML로 바로 제공하지 않는 경우가 많으므로, 규정 전문 확인은 첨부파일을 다운로드해 ZIP/HWP/PDF를 해제·추출해서 확인한다.
 
 ## 자주 확인하는 공시 항목
 
@@ -180,6 +191,22 @@ https://alio.go.kr/statisticsSearch/findSingleItemSearchList.json?pageNo=1&count
 - 지적사항은 표현을 과장하지 말고 공시 문구에 맞춰 요약한다.
 - 첨부자료가 있으면 본문 요약만 보지 말고 첨부 원문에서 실제 지적 문구를 확인한다.
 - `유출 우려`, `유출 여부 점검`, `유출 확인`은 서로 다른 의미로 구분한다.
+
+### 내부규정
+
+확인할 값:
+- 규정명
+- 기관명
+- 분야: 정관, 인사·복무·징계, 보수, 직제, 기타
+- 제·개정 시행일 또는 기준일
+- 등록/공시일
+- 상세 `seq`
+- 첨부파일명과 파일번호
+
+주의:
+- 국가법령정보센터 공공기관 규정은 보조 출처일 뿐이며, ALIO 내부규정 목록이 더 넓을 수 있다.
+- ALIO 내부규정은 전문이 HTML 본문으로 보이지 않고 ZIP/HWP/PDF 첨부로 제공될 수 있다.
+- ZIP에는 여러 개정 이력 파일이 함께 들어갈 수 있으므로 최신 시행일 파일을 골라 확인한다.
 
 ## k-dart와 다른 점
 
