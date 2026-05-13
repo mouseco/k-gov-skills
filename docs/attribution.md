@@ -42,7 +42,7 @@
 
 ## read-hwp
 
-- 성격: `NomaDamas/k-skill` 계열에서 사용하던 HWP/HWPX 읽기·변환 스킬을 공공기관 문서 검토 흐름에 맞게 포함한 스킬
+- 성격: `NomaDamas/k-skill` 원본을 공공기관 문서 검토 흐름에 필요해 가져와 일부만 가공한 파생·적응본
 - 확인된 로컬 원본 위치: `C:\Users\mouse\.agents\skills\hwp`
 - k-gov 저장소 반영 이름: `read-hwp`
 - k-gov 저장소 반영 성격: ALIO 내부규정, 공공기관 첨부 HWP/HWPX 문서를 Markdown/JSON으로 읽기 위한 보조 스킬
@@ -56,6 +56,23 @@
 ### 라이선스 주의
 
 원 스킬과 `kordoc` 등 사용 도구의 라이선스와 출처를 존중한다. 이 저장소의 문서는 공공기관 공개문서 읽기·검토 업무에 맞춘 배포용 정리본이다.
+
+## korean-law-search
+
+- 성격: `NomaDamas/k-skill` 원본을 공공기관 법령 근거조사에 필요해 가져와 일부만 가공한 파생·적응본
+- 확인된 로컬 원본 위치: `C:\Users\mouse\.agents\skills\korean-law-search`
+- k-gov 저장소 반영 이름: `korean-law-search`
+- k-gov 저장소 반영 성격: 국가법령정보센터/법제처 API 계열, `korean-law-mcp`, 법망 fallback을 활용해 법령·조문·판례·해석례·자치법규를 확인하는 보조 스킬
+
+### 주요 수정 방향
+
+- 공개 저장소용 feature 문서 추가
+- 공공기관 보고서 법령 근거조사 흐름에 맞춘 설명 추가
+- ALIO 내부규정과 국가법령정보센터 공공기관 규정의 범위 차이 주의사항 명시
+
+### 라이선스 주의
+
+원 스킬, `korean-law-mcp`, 법제처 Open API, 법망 등 사용 도구·서비스의 라이선스와 이용 조건을 존중한다. 이 저장소의 문서는 공공기관 공개 법령 근거조사 업무에 맞춘 배포용 정리본이다.
 
 ## mouseco 작성 스킬
 

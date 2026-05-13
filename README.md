@@ -8,6 +8,8 @@
 
 `k-gov-skills`는 [`NomaDamas/k-skill`](https://github.com/NomaDamas/k-skill)의 스킬 구조와 문서화 방식을 참고했습니다. 다만 방향은 조금 다릅니다. `k-skill`이 한국 생활·업무 전반의 자동화 모음이라면, `k-gov-skills`는 **공무원·공공기관 문서 업무**에 초점을 둡니다.
 
+특히 `read-hwp`와 `korean-law-search`는 `NomaDamas/k-skill` 계열 원본을 공공기관 문서·법령 근거조사에 필요해 가져온 뒤, 공개 배포와 k-gov 업무 흐름에 맞게 일부만 가공한 파생·적응본입니다. 순수 창작 스킬로 표시하지 않으며, 원 출처와 사용 도구의 권리를 존중합니다.
+
 핵심은 단순 자동화가 아닙니다.
 
 **양식은 지키고, 작성 흐름은 줄이고, 결과물은 사람이 바로 검토할 수 있게 만드는 것**입니다.
@@ -29,6 +31,7 @@
 | 교통비 증빙 수집 | `transport-receipt-collector` | 출장·여비 정산용 하이패스·SRT·KTX/Korail 영수증을 PDF/PNG/JSON 산출물로 정리 | provider별 로컬 계정 정보 필요 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) |
 | ALIO 기관별 공시 상세 확인 | `alio` | ALIO 기관별 공시에서 공공기관별 일반현황·임직원·임원·재무·주요사업 등 상세 공시를 확인해 근거 메모로 정리 | 불필요 | [ALIO 기관별 공시 상세 확인 가이드](docs/features/alio.md) |
 | HWP/HWPX 문서 읽기·변환 | `read-hwp` | HWP/HWPX/HWPML 문서를 Markdown/JSON으로 변환해 ALIO 내부규정·공시 첨부문서를 읽고 조항을 확인 | 문서 파일 필요 | [HWP/HWPX 문서 읽기·변환 가이드](docs/features/read-hwp.md) |
+| 한국 법령 검색 | `korean-law-search` | 국가법령정보센터/법제처 API 계열과 korean-law-mcp로 법령·조문·판례·해석례·자치법규를 확인 | 필요 시 법제처 API key | [한국 법령 검색 가이드](docs/features/korean-law-search.md) |
 
 ## 처음 시작하는 순서
 
@@ -48,6 +51,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/transport-receipt-collector
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/alio
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/read-hwp
+$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/korean-law-search
 ```
 
 ## 문서
@@ -64,6 +68,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) | 하이패스 영수증 PDF/PNG 저장 |
 | [ALIO 기관별 공시 상세 확인 가이드](docs/features/alio.md) | 공공기관별 경영공시 상세내용 확인 |
 | [HWP/HWPX 문서 읽기·변환 가이드](docs/features/read-hwp.md) | HWP/HWPX/HWPML 문서 변환과 조항 확인 |
+| [한국 법령 검색 가이드](docs/features/korean-law-search.md) | 법령·조문·판례·해석례·자치법규 조회 |
 
 ## 포함된 기능
 
@@ -74,6 +79,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 - [교통비 증빙 수집](docs/features/transport-receipt-collector.md)
 - [ALIO 기관별 공시 상세 확인](docs/features/alio.md)
 - [HWP/HWPX 문서 읽기·변환](docs/features/read-hwp.md)
+- [한국 법령 검색](docs/features/korean-law-search.md)
 
 ## 저장소 구조
 
@@ -93,6 +99,7 @@ skills/
   transport-receipt-collector/ 교통비 영수증 수집 스크립트
   alio/                    ALIO 기관별 공시 상세내용 확인 기준
   read-hwp/                HWP/HWPX/HWPML 문서 읽기·변환 기준
+  korean-law-search/       한국 법령·조문·판례·해석례 조회 기준
 ```
 
 ## 공개 배포 기준
