@@ -106,7 +106,7 @@ https://alio.go.kr/statisticsSearch/findSingleItemSearchList.json?pageNo=1&count
 /download/rulefiledown.json?fileNo=<파일번호>
 ```
 
-분류코드 예시는 `K1500=정관`, `K1100=인사·복무·징계`, `K1200=보수`, `K1300=직제`, `K1400=기타`다. 상세 JSON의 `bFiles`는 `파일번호|파일명` 형식이며, ZIP으로 여러 개정본 HWP가 묶여 있을 수 있다. ALIO 화면에서 본문을 HTML로 바로 제공하지 않는 경우가 많으므로, 규정 전문 확인은 첨부파일을 다운로드해 ZIP/HWP/PDF를 해제·추출해서 확인한다.
+분류코드 예시는 `K1500=정관`, `K1100=인사·복무·징계`, `K1200=보수`, `K1300=직제`, `K1400=기타`다. 상세 JSON의 `bFiles`는 `파일번호|파일명` 형식이며, ZIP으로 여러 개정본 HWP가 묶여 있을 수 있다. 기관에 따라 ZIP이 아니라 HWP, HWPX, PDF 같은 단일 파일로 올라올 수 있다. ALIO 화면에서 본문을 HTML로 바로 제공하지 않는 경우가 많으므로, 규정 전문 확인은 첨부파일을 다운로드해 ZIP/HWP/HWPX/PDF를 해제·추출해서 확인한다.
 
 ## 자주 확인하는 공시 항목
 
@@ -205,8 +205,9 @@ https://alio.go.kr/statisticsSearch/findSingleItemSearchList.json?pageNo=1&count
 
 주의:
 - 국가법령정보센터 공공기관 규정은 보조 출처일 뿐이며, ALIO 내부규정 목록이 더 넓을 수 있다.
-- ALIO 내부규정은 전문이 HTML 본문으로 보이지 않고 ZIP/HWP/PDF 첨부로 제공될 수 있다.
+- ALIO 내부규정은 전문이 HTML 본문으로 보이지 않고 ZIP/HWP/HWPX/PDF 첨부로 제공될 수 있다.
 - ZIP에는 여러 개정 이력 파일이 함께 들어갈 수 있으므로 최신 시행일 파일을 골라 확인한다.
+- HWP/HWPX는 `kordoc` 등 문서 변환 도구로 Markdown/JSON 추출 후 조항을 확인한다.
 
 ## k-dart와 다른 점
 
