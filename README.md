@@ -10,9 +10,9 @@
 
 ## 외부 원본 사용 고지
 
-`read-hwp`와 `korean-law-search`는 `NomaDamas/k-skill` 계열 원본을 공공기관 문서·법령 근거조사에 필요해 가져온 뒤, 공개 배포와 k-gov 업무 흐름에 맞게 **일부만 가공한 파생·적응본**입니다.
+`read-hwp`, `korean-law-search`, `kosis-stats` 등 일부 스킬은 `NomaDamas/k-skill` 계열 원본을 공공기관 문서·법령·공식통계 근거조사에 필요해 가져온 뒤, 공개 배포와 k-gov 업무 흐름에 맞게 **일부만 가공한 파생·적응본**입니다.
 
-두 스킬은 이 저장소의 순수 창작 스킬로 표시하지 않습니다. 원 출처, 원 저작자, `kordoc`, `korean-law-mcp`, 법제처 Open API, 법망 등 사용 도구·서비스의 권리와 이용 조건을 존중합니다. 자세한 출처와 수정 범위는 [`docs/attribution.md`](docs/attribution.md)에 따로 기록했습니다.
+해당 스킬들은 이 저장소의 순수 창작 스킬로 표시하지 않습니다. 원 출처, 원 저작자, `kordoc`, `korean-law-mcp`, KOSIS Open API, 법제처 Open API, 법망 등 사용 도구·서비스의 권리와 이용 조건을 존중합니다. 자세한 출처와 수정 범위는 [`docs/attribution.md`](docs/attribution.md)에 따로 기록했습니다.
 
 핵심은 단순 자동화가 아닙니다.
 
@@ -36,6 +36,7 @@
 | ALIO 기관별 공시 상세 확인 | `alio` | ALIO 기관별 공시에서 공공기관별 일반현황·임직원·임원·재무·주요사업 등 상세 공시를 확인해 근거 메모로 정리 | 불필요 | [ALIO 기관별 공시 상세 확인 가이드](docs/features/alio.md) |
 | HWP/HWPX 문서 읽기·변환 | `read-hwp` | HWP/HWPX/HWPML 문서를 Markdown/JSON으로 변환해 ALIO 내부규정·공시 첨부문서를 읽고 조항을 확인 | 문서 파일 필요 | [HWP/HWPX 문서 읽기·변환 가이드](docs/features/read-hwp.md) |
 | 한국 법령 검색 | `korean-law-search` | 국가법령정보센터/법제처 API 계열과 korean-law-mcp로 법령·조문·판례·해석례·자치법규를 확인 | 필요 시 법제처 API key | [한국 법령 검색 가이드](docs/features/korean-law-search.md) |
+| KOSIS 공식 통계 조회 | `kosis-stats` | KOSIS Open API로 공식 통계표를 검색·조회하고 공공기관용 지표 프리셋으로 정책·사업 근거 수치를 정리 | proxy 또는 KOSIS API key | [KOSIS 공식 통계 조회 가이드](docs/features/kosis-stats.md) |
 
 ## 처음 시작하는 순서
 
@@ -56,6 +57,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/alio
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/read-hwp
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/korean-law-search
+$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/kosis-stats
 ```
 
 ## 문서
@@ -73,6 +75,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 | [ALIO 기관별 공시 상세 확인 가이드](docs/features/alio.md) | 공공기관별 경영공시 상세내용 확인 |
 | [HWP/HWPX 문서 읽기·변환 가이드](docs/features/read-hwp.md) | HWP/HWPX/HWPML 문서 변환과 조항 확인 |
 | [한국 법령 검색 가이드](docs/features/korean-law-search.md) | 법령·조문·판례·해석례·자치법규 조회 |
+| [KOSIS 공식 통계 조회 가이드](docs/features/kosis-stats.md) | 공공기관 보고서·정책근거용 공식 통계 조회 |
 
 ## 포함된 기능
 
@@ -84,6 +87,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 - [ALIO 기관별 공시 상세 확인](docs/features/alio.md)
 - [HWP/HWPX 문서 읽기·변환](docs/features/read-hwp.md)
 - [한국 법령 검색](docs/features/korean-law-search.md)
+- [KOSIS 공식 통계 조회](docs/features/kosis-stats.md)
 
 ## 저장소 구조
 
@@ -104,6 +108,7 @@ skills/
   alio/                    ALIO 기관별 공시 상세내용 확인 기준
   read-hwp/                HWP/HWPX/HWPML 문서 읽기·변환 기준
   korean-law-search/       한국 법령·조문·판례·해석례 조회 기준
+  kosis-stats/             KOSIS 공식 통계 조회와 공공기관용 지표 프리셋
 ```
 
 ## 공개 배포 기준

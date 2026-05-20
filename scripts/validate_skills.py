@@ -137,6 +137,11 @@ def validate_public_safety(errors):
                 }
                 if normalized in allowed_rule_docs:
                     continue
+                # kosis-stats documents and code intentionally mention generic API-key
+                # and secret-resolution variable names. They must not contain actual key values.
+                if normalized.startswith("skills/kosis-stats/") or normalized == "docs/features/kosis-stats.md":
+                    if pattern in {"password", "api_key", "secret"}:
+                        continue
                 if pattern == "token" and path.suffix.lower() in {".py", ".md"}:
                     continue
                 fail(errors, f"{path}: possible sensitive pattern {pattern!r}")

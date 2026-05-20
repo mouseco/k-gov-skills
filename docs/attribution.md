@@ -74,6 +74,25 @@
 
 원 스킬, `korean-law-mcp`, 법제처 Open API, 법망 등 사용 도구·서비스의 라이선스와 이용 조건을 존중한다. 이 저장소의 문서는 공공기관 공개 법령 근거조사 업무에 맞춘 배포용 정리본이다.
 
+## kosis-stats
+
+- 성격: `NomaDamas/k-skill` 원본을 공공기관 공식 통계 근거조사에 필요해 가져와 일부 가공한 파생·적응본
+- 확인된 원본 위치: `NomaDamas/k-skill` 저장소의 `kosis-stats/`
+- 원본 기능 문서: `NomaDamas/k-skill` 저장소의 `docs/features/kosis-stats.md`
+- k-gov 저장소 반영 이름: `kosis-stats`
+- k-gov 저장소 반영 성격: KOSIS Open API로 한국 공식 통계표를 검색·조회하고, 공공기관 보고서·사업계획·정책근거에 자주 쓰는 지표 프리셋을 함께 제공하는 보조 스킬
+
+### 주요 수정 방향
+
+- 공개 저장소용 feature 문서 추가
+- 공공기관·공무원 보고서에서 자주 찾는 인구, 고령화, 청년, 가구, 고용, 물가, 지역경제, 교육, 복지 지표 프리셋 추가
+- `references/public-sector-indicator-presets.md`를 추가해 KOSIS 조회 전 지표 후보를 빠르게 좁히도록 보강
+- KOSIS hosted proxy 실패 시 direct API key 사용 흐름을 문서에 명시
+
+### 라이선스 주의
+
+원 `kosis-stats`의 MIT 라이선스와 `NomaDamas/k-skill` 출처를 존중한다. 이 저장소의 문서는 공공기관 공식 통계 근거조사 업무에 맞춘 적응본이며, 원 구현의 권리는 원 출처에 있다.
+
 ## mouseco 작성 스킬
 
 아래 스킬은 이 저장소의 공공문서 자동화 목적에 맞춰 작성·정리한 스킬이다.
