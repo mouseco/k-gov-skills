@@ -204,7 +204,7 @@ def search(args: argparse.Namespace) -> dict[str, Any]:
 
 def as_text(result: dict[str, Any]) -> str:
     if result.get("dry_run"):
-        return "요청 URL:\\n" + "\\n".join(result["request_urls"])
+        return "요청 URL:\n" + "\n".join(result["request_urls"])
     lines = [
         f"조회기간: {result['period']['from']} ~ {result['period']['to']}",
         f"검색어: {result['query'] or '-'} / 유형: {result['kind']}",
@@ -228,7 +228,7 @@ def as_text(result: dict[str, Any]) -> str:
                 f"- 첨부: {first_att}",
             ]
         )
-    return "\\n".join(lines)
+    return "\n".join(lines)
 
 
 def build_parser() -> argparse.ArgumentParser:

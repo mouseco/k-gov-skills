@@ -39,6 +39,7 @@
 | KOSIS 공식 통계 조회 | `kosis-stats` | KOSIS Open API로 공식 통계표를 검색·조회하고 공공기관용 지표 프리셋으로 정책·사업 근거 수치를 정리 | proxy 또는 KOSIS API key | [KOSIS 공식 통계 조회 가이드](docs/features/kosis-stats.md) |
 | 공공데이터포털 데이터셋 검색 | `public-data-finder` | 공공데이터포털 목록개방현황 API로 공공기관 개방 데이터셋과 오픈API 후보를 검색 | 공공데이터포털 API key | [공공데이터포털 데이터셋 검색 가이드](docs/features/public-data-finder.md) |
 | 나라장터 입찰공고 검색 | `g2b-bid-search` | 나라장터 입찰공고 API로 용역·물품·공사 공고와 예산·마감·첨부 URL을 정리 | 나라장터 API key | [나라장터 입찰공고 검색 가이드](docs/features/g2b-bid-search.md) |
+| 국회 의안·입법 변화 추적 | `national-assembly-tracker` | 열린국회정보 의안 API로 법률안 진행상태와 공식 확인 링크를 정리 | 열린국회정보 API key | [국회 의안·입법 변화 추적 가이드](docs/features/national-assembly-tracker.md) |
 
 ## 처음 시작하는 순서
 
@@ -62,6 +63,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/kosis-stats
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/public-data-finder
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/g2b-bid-search
+$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/national-assembly-tracker
 ```
 
 ## 문서
@@ -82,6 +84,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 | [KOSIS 공식 통계 조회 가이드](docs/features/kosis-stats.md) | 공공기관 보고서·정책근거용 공식 통계 조회 |
 | [공공데이터포털 데이터셋 검색 가이드](docs/features/public-data-finder.md) | 공공기관 개방 데이터셋·오픈API 후보 검색 |
 | [나라장터 입찰공고 검색 가이드](docs/features/g2b-bid-search.md) | 공공조달 용역·물품·공사 공고 검색 |
+| [국회 의안·입법 변화 추적 가이드](docs/features/national-assembly-tracker.md) | 법률안 진행상태와 입법 변화 후보 추적 |
 
 ## 포함된 기능
 
@@ -96,6 +99,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 - [KOSIS 공식 통계 조회](docs/features/kosis-stats.md)
 - [공공데이터포털 데이터셋 검색](docs/features/public-data-finder.md)
 - [나라장터 입찰공고 검색](docs/features/g2b-bid-search.md)
+- [국회 의안·입법 변화 추적](docs/features/national-assembly-tracker.md)
 
 ## 저장소 구조
 
@@ -119,6 +123,7 @@ skills/
   kosis-stats/             KOSIS 공식 통계 조회와 공공기관용 지표 프리셋
   public-data-finder/      공공데이터포털 개방 데이터셋 검색
   g2b-bid-search/          나라장터 입찰공고 검색
+  national-assembly-tracker/ 국회 의안·입법 변화 추적
 ```
 
 ## 공개 배포 기준

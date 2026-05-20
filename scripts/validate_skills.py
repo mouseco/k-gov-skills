@@ -148,6 +148,9 @@ def validate_public_safety(errors):
                 if normalized.startswith("skills/g2b-bid-search/") or normalized == "docs/features/g2b-bid-search.md":
                     if pattern in {"api_key", "secret"}:
                         continue
+                if normalized.startswith("skills/national-assembly-tracker/") or normalized == "docs/features/national-assembly-tracker.md":
+                    if pattern in {"api_key", "secret"}:
+                        continue
                 if pattern == "token" and path.suffix.lower() in {".py", ".md"}:
                     continue
                 fail(errors, f"{path}: possible sensitive pattern {pattern!r}")
