@@ -38,6 +38,7 @@
 | 한국 법령 검색 | `korean-law-search` | 국가법령정보센터/법제처 API 계열과 korean-law-mcp로 법령·조문·판례·해석례·자치법규를 확인 | 필요 시 법제처 API key | [한국 법령 검색 가이드](docs/features/korean-law-search.md) |
 | KOSIS 공식 통계 조회 | `kosis-stats` | KOSIS Open API로 공식 통계표를 검색·조회하고 공공기관용 지표 프리셋으로 정책·사업 근거 수치를 정리 | proxy 또는 KOSIS API key | [KOSIS 공식 통계 조회 가이드](docs/features/kosis-stats.md) |
 | 공공데이터포털 데이터셋 검색 | `public-data-finder` | 공공데이터포털 목록개방현황 API로 공공기관 개방 데이터셋과 오픈API 후보를 검색 | 공공데이터포털 API key | [공공데이터포털 데이터셋 검색 가이드](docs/features/public-data-finder.md) |
+| 나라장터 입찰공고 검색 | `g2b-bid-search` | 나라장터 입찰공고 API로 용역·물품·공사 공고와 예산·마감·첨부 URL을 정리 | 나라장터 API key | [나라장터 입찰공고 검색 가이드](docs/features/g2b-bid-search.md) |
 
 ## 처음 시작하는 순서
 
@@ -60,6 +61,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/korean-law-search
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/kosis-stats
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/public-data-finder
+$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/g2b-bid-search
 ```
 
 ## 문서
@@ -79,6 +81,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 | [한국 법령 검색 가이드](docs/features/korean-law-search.md) | 법령·조문·판례·해석례·자치법규 조회 |
 | [KOSIS 공식 통계 조회 가이드](docs/features/kosis-stats.md) | 공공기관 보고서·정책근거용 공식 통계 조회 |
 | [공공데이터포털 데이터셋 검색 가이드](docs/features/public-data-finder.md) | 공공기관 개방 데이터셋·오픈API 후보 검색 |
+| [나라장터 입찰공고 검색 가이드](docs/features/g2b-bid-search.md) | 공공조달 용역·물품·공사 공고 검색 |
 
 ## 포함된 기능
 
@@ -92,6 +95,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 - [한국 법령 검색](docs/features/korean-law-search.md)
 - [KOSIS 공식 통계 조회](docs/features/kosis-stats.md)
 - [공공데이터포털 데이터셋 검색](docs/features/public-data-finder.md)
+- [나라장터 입찰공고 검색](docs/features/g2b-bid-search.md)
 
 ## 저장소 구조
 
@@ -114,6 +118,7 @@ skills/
   korean-law-search/       한국 법령·조문·판례·해석례 조회 기준
   kosis-stats/             KOSIS 공식 통계 조회와 공공기관용 지표 프리셋
   public-data-finder/      공공데이터포털 개방 데이터셋 검색
+  g2b-bid-search/          나라장터 입찰공고 검색
 ```
 
 ## 공개 배포 기준
