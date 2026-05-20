@@ -142,6 +142,9 @@ def validate_public_safety(errors):
                 if normalized.startswith("skills/kosis-stats/") or normalized == "docs/features/kosis-stats.md":
                     if pattern in {"password", "api_key", "secret"}:
                         continue
+                if normalized.startswith("skills/public-data-finder/") or normalized == "docs/features/public-data-finder.md":
+                    if pattern in {"api_key", "secret"}:
+                        continue
                 if pattern == "token" and path.suffix.lower() in {".py", ".md"}:
                     continue
                 fail(errors, f"{path}: possible sensitive pattern {pattern!r}")
