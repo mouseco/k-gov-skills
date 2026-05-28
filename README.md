@@ -29,7 +29,7 @@
 | 할 수 있는 일 | 스킬 이름 | 설명 | 사용자 로그인/자료 | 문서 |
 | --- | --- | --- | --- | --- |
 | 공공 보고서 작성 | `official-report-skillset` | 검토보고·계획보고·결과보고·회의결과 보고 초안을 결재문서 구조로 정리하고, 계약 결과와 운영 계획이 함께 있는 문서는 `주요 내용` 아래에 단순하게 묶음 | 불필요 | [공공 보고서 작성 가이드](docs/features/official-report-skillset.md) |
-| 정책·제도 심층조사 | `deep-research-pro` | 법령·지침·공식자료·통계·사례를 출처와 함께 조사해 보고서 근거 메모 작성 | 불필요(비공개 자료는 사용자 제공 필요) | [심층 리서치 가이드](docs/features/deep-research-pro.md) |
+| 정책·제도 심층조사 | `deep-research-pro` | 공식자료·첨부 PDF·법령·통계를 확인하고 출처 등급, 반대 근거, 실패 조건, 결정 포인트까지 정리한 판단 브리프와 상세 보고서 작성 | 불필요(비공개 자료는 사용자 제공 필요) | [심층 리서치 가이드](docs/features/deep-research-pro.md) |
 | HWPX 보고서 생성 | `hwpx-mouseco` | 공개 배포용 HWPX 템플릿을 분석하고 원페이퍼·다중페이퍼·장문 보고서 생성·검증 | 템플릿/보고서 JSON 필요 | [HWPX 보고서 생성 가이드](docs/features/hwpx-mouseco.md) |
 | 회의록 PDF 작성 | `gov-meeting-minutes` | 회의 메모·ClovaNote 전사를 1쪽 회의록과 상세 발언록이 포함된 공문서형 PDF로 정리 | 회의 메모/전사 필요 | [회의록 PDF 작성 가이드](docs/features/gov-meeting-minutes.md) |
 | 교통비 증빙 수집 | `transport-receipt-collector` | 출장·여비 정산용 하이패스·SRT·KTX/Korail 영수증을 PDF/PNG/JSON 산출물로 정리 | provider별 로컬 계정 정보 필요(`KGOV_ENV_FILE` 또는 `$HOME/.openclaw/.env`) | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) |
@@ -74,7 +74,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 | [보안/시크릿 정책](docs/security-and-secrets.md) | 공공문서·개인정보·계정정보·비공개 양식 취급 기준 |
 | [출처/파생 기록](docs/attribution.md) | 외부 스킬에서 가져온 부분과 수정 범위 |
 | [공공 보고서 작성 가이드](docs/features/official-report-skillset.md) | 공문서·검토보고·계획보고 초안 작성 |
-| [심층 리서치 가이드](docs/features/deep-research-pro.md) | 출처 있는 정책·제도·통계 조사 |
+| [심층 리서치 가이드](docs/features/deep-research-pro.md) | 출처 있는 정책·제도·통계 조사와 판단 브리프 작성 |
 | [HWPX 보고서 생성 가이드](docs/features/hwpx-mouseco.md) | HWPX 템플릿 분석·생성·검증 |
 | [회의록 PDF 작성 가이드](docs/features/gov-meeting-minutes.md) | 회의록 요약본과 상세 발언록 생성 |
 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) | 하이패스 영수증 PDF/PNG 저장 |
@@ -115,7 +115,7 @@ scripts/
   validate_skills.py         메타데이터·문서·JSON·Python·HWPX 검증
 skills/
   official-report-skillset/  공공기관 보고서 작성 규칙
-  deep-research-pro/         심층 리서치 절차와 보조 스크립트
+  deep-research-pro/         출처 검증·PDF 확인·반대검토 기반 심층 리서치
   hwpx-mouseco/              HWPX 분석·생성·검증 도구와 배포용 템플릿
   gov-meeting-minutes/       회의록 PDF 생성 규칙과 렌더링 스크립트
   transport-receipt-collector/ 교통비 영수증 수집 스크립트
