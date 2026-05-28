@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 REQUIRED_HEADINGS = [
-    "Executive Summary",
+    "핵심 요약",
     "출처",
     "조사 방법",
 ]
@@ -23,6 +23,11 @@ def main() -> int:
         "--require-pdf-evidence",
         action="store_true",
         help="Require evidence that at least one PDF or attachment body was inspected.",
+    )
+    parser.add_argument(
+        "--require-analysis-depth",
+        action="store_true",
+        help="Require Korean analysis sections for consensus/debate/decision points.",
     )
     args = parser.parse_args()
 
@@ -43,10 +48,20 @@ def main() -> int:
             "source_fetch.py",
         ]
     )
+    analysis_depth = all(
+        k in text
+        for k in [
+            "공통으로 확인된 점",
+            "엇갈리거나 조심할 점",
+            "결정 포인트",
+        ]
+    )
 
     ok = not missing and source_count >= args.min_sources and single_source_flag
     if args.require_pdf_evidence:
         ok = ok and pdf_evidence
+    if args.require_analysis_depth:
+        ok = ok and analysis_depth
     result = {
         "ok": ok,
         "report": str(path),
@@ -55,6 +70,8 @@ def main() -> int:
         "has_limit_or_single_source_flag": single_source_flag,
         "has_pdf_evidence": pdf_evidence,
         "require_pdf_evidence": args.require_pdf_evidence,
+        "has_analysis_depth": analysis_depth,
+        "require_analysis_depth": args.require_analysis_depth,
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if ok else 2
