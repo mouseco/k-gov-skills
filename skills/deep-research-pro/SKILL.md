@@ -13,7 +13,7 @@ metadata:
 
 ## 먼저 읽기: 언제 쓰는 스킬인가
 
-이 스킬은 **짧은 답변이 아니라 출처 있는 심층조사 보고서**가 필요할 때 쓴다. 자료를 많이 모으는 것이 목적이 아니라, 질문을 쪼개고, 핵심 출처를 확인하고, 서로 다른 출처를 교차검증한 뒤, 의사결정에 쓸 수 있는 요약으로 바꾸는 것이 목적이다.
+이 스킬은 **짧은 답변이 아니라 출처 있는 심층조사 보고서**가 필요할 때 쓴다. 자료를 많이 모으는 것이 목적이 아니라, 질문을 쪼개고, 핵심 출처 본문과 첨부 PDF를 확인하고, 서로 다른 출처를 교차검증한 뒤, 의사결정에 쓸 수 있는 요약으로 바꾸는 것이 목적이다.
 
 ### 쓰면 좋은 경우
 
@@ -126,16 +126,33 @@ outputs\research\YYYY-MM-DD-<slug>\report.md
 
 검색 결과는 보통 10~25개 후보를 확보하되, 실제 본문 확인은 핵심 3~7개 출처에 집중한다.
 
-### 5단계. 핵심 출처 본문 확인
+### 5단계. 핵심 출처 본문·첨부 확인
 
 검색 스니펫만으로 결론을 내리지 않는다.
 
 - 일반 페이지는 `web_fetch`로 본문 확인
 - `web_fetch`가 401/403, JS 의존, 뉴스/IR/동적 페이지면 `browser` 사용
-- PDF 보고서·논문은 `pdf` 도구 사용
+- PDF 보고서·논문·보도자료 첨부는 `pdf` 도구 사용
+- 정부·공공기관 게시글에 PDF/HWPX 첨부가 있으면 HTML 본문만 읽고 끝내지 않는다. 최소 1개 핵심 첨부의 본문 또는 첫 3~5쪽을 확인한다.
 - `pdf` 도구가 URL에서 실패하면 `web_fetch` 또는 `browser`로 게시글·첨부파일 메타를 먼저 확인하고, 필요 시 `scripts/source_fetch.py`로 파일을 다운로드한 뒤 로컬 경로로 재시도한다. 로컬 PDF도 실패하면 `scripts/pdf_text_extract.py`로 필요한 페이지만 텍스트 추출한다.
 - 행정안전부·공공기관 사이트처럼 메뉴 텍스트가 과다 추출되면 `browser`의 evaluate로 `document.body.innerText`를 확인해 제목·등록일·본문·첨부파일 정보만 추린다.
 - 법령·판례·행정규칙은 `korean-law` 도구군 사용
+
+#### PDF 심층 확인 기준
+
+아래 중 하나라도 해당하면 PDF 본문 확인을 필수로 한다.
+
+- 제목에 `가이드라인`, `안내서`, `보고서`, `백서`, `실태조사`, `연차보고서`, `브리핑문`, `Q&A`가 포함됨
+- HTML 본문이 “자세한 내용은 첨부를 참고” 수준으로 짧음
+- 수치, 정책 원칙, 절차, 체크리스트, 사례가 첨부파일에 있을 가능성이 큼
+- 사용자가 “심층”, “근거 보고서”, “보고서에 넣을 정도”를 요청함
+
+PDF를 확인한 경우 보고서의 `조사 방법` 또는 출처 확인 로그에 아래 중 하나를 명시한다.
+
+```markdown
+- PDF 본문 확인: [문서명], 확인 쪽수 1-5쪽, 확인 방법 pdf/source_fetch.py/pdf_text_extract.py
+- 첨부 PDF 확인 실패: [문서명], 실패 사유, 대체 근거
+```
 
 ### 도구 실패 시 대체 경로
 
@@ -167,7 +184,7 @@ outputs\research\YYYY-MM-DD-<slug>\report.md
 ```markdown
 | 출처 | 확인 방법 | 본문 확인 여부 | 신뢰도 | 보고서 반영 |
 |---|---|---|---|---|
-| 기관명/문서명 | web_fetch/browser/pdf/korean-law | 예/부분/실패 | 높음/중간/낮음 | 반영/보류 |
+| 기관명/문서명 | web_fetch/browser/pdf/source_fetch.py/pdf_text_extract.py/korean-law | 예/PDF 1-5쪽/부분/실패 | 높음/중간/낮음 | 반영/보류 |
 ```
 
 ### 6단계. 교차검증
@@ -230,6 +247,7 @@ outputs\research\YYYY-MM-DD-<slug>\report.md
 - 검색 질문:
 - 사용 도구:
 - 본문 확인 출처:
+- PDF 본문 확인:
 ```
 
 ### 공공기관 보고서 보조용일 때
@@ -252,11 +270,12 @@ outputs\research\YYYY-MM-DD-<slug>\report.md
 
 1. **주요 주장에는 출처를 붙인다.**
 2. **검색 결과보다 본문 확인을 우선한다.**
-3. **공식자료와 원출처를 우선한다.**
-4. **단일 출처 주장은 단일 출처라고 표시한다.**
-5. **숫자에는 기준일·출처·산식을 확인한다.**
-6. **모르는 것은 모른다고 쓴다.**
-7. **자료를 많이 모으기보다 의사결정에 필요한 근거를 남긴다.**
+3. **핵심 공식자료의 첨부 PDF를 최소 1개 이상 확인한다.**
+4. **공식자료와 원출처를 우선한다.**
+5. **단일 출처 주장은 단일 출처라고 표시한다.**
+6. **숫자에는 기준일·출처·산식을 확인한다.**
+7. **모르는 것은 모른다고 쓴다.**
+8. **자료를 많이 모으기보다 의사결정에 필요한 근거를 남긴다.**
 
 ### 완료 전 검증
 
@@ -264,6 +283,12 @@ outputs\research\YYYY-MM-DD-<slug>\report.md
 
 ```text
 python -X utf8 skills\deep-research-pro\scripts\validate_report.py outputs\research\YYYY-MM-DD-<slug>\report.md --min-sources 3
+```
+
+핵심 출처가 PDF 첨부 중심인 주제라면 아래 옵션까지 사용한다.
+
+```text
+python -X utf8 skills\deep-research-pro\scripts\validate_report.py outputs\research\YYYY-MM-DD-<slug>\report.md --min-sources 3 --require-pdf-evidence
 ```
 
 검증이 실패하면 누락된 섹션, 출처 수, 한계 표시를 보완한 뒤 다시 저장한다.
@@ -288,7 +313,7 @@ sub-agent에게는 아래처럼 맡긴다.
 - deep-research-pro OpenClaw Edition 기준으로 조사
 - 연구 질문 3~5개로 분해
 - web_search/web_fetch/browser/pdf/korean-law 도구 사용
-- 핵심 출처 본문 확인
+- 핵심 출처 본문과 첨부 PDF 최소 1개 확인
 - 단일 출처 주장은 표시
 - 결과는 Executive Summary, 핵심 쟁점, 출처 목록으로 반환
 ```
@@ -301,7 +326,7 @@ sub-agent에게는 아래처럼 맡긴다.
 
 ```text
 주제: 공공기관 생성형 AI 도입 시 핵심 점검사항
-목표: web_search → web_fetch/browser → korean-law → report.md 저장 경로가 작동하는지 확인
+목표: web_search → web_fetch/browser → PDF 본문 확인 → korean-law → report.md 저장 → validate_report.py 검증 경로가 작동하는지 확인
 최소 출처:
 - NIA 공공부문 초거대 AI 도입·활용 가이드라인
 - 개인정보보호위원회 생성형 AI 개인정보 처리 안내서
@@ -310,9 +335,11 @@ sub-agent에게는 아래처럼 맡긴다.
 완료 기준:
 - 공식 출처 3개 이상 확인
 - 법령 도구 1회 이상 확인
-- PDF URL 실패 시 `source_fetch.py` 또는 `pdf_text_extract.py` 대체 경로 1회 이상 확인
+- 핵심 PDF 첨부 1개 이상 본문 확인
+- PDF URL 실패 시 `source_fetch.py` 또는 `pdf_text_extract.py` 대체 경로 1회 이상 시도하고 결과 기록
 - `outputs/research/YYYY-MM-DD-<slug>/report.md` 저장
 - 실패한 도구와 대체 경로 기록
+- `validate_report.py --min-sources 3 --require-pdf-evidence` 통과
 ```
 
 ## 예시 요청
