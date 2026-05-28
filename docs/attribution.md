@@ -12,7 +12,7 @@
 
 ### 주요 수정 방향
 
-- `/home/clawdbot` 계열 Linux/DDG 경로 제거
+- 특정 로컬 환경 전용 검색 스크립트·저장 경로 제거
 - Windows/OpenClaw 작업 경로 기준으로 재작성
 - `web_search`, `web_fetch`, browser/PDF/korean-law 도구 사용 기준 명시
 - 공공기관 정책·법령·지침·통계·공식자료 우선순위 보강

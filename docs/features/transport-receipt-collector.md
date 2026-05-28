@@ -63,7 +63,7 @@ outputs/receipts/2026-05/
 
 하이패스는 ID/비밀번호 자동 로그인을 기본값으로 합니다.
 
-- 기본적으로 사용자 홈 아래의 OpenClaw 환경파일(`.openclaw/.env`)을 로드합니다.
+- 기본적으로 `KGOV_ENV_FILE` 또는 사용자 홈 아래의 환경파일(`$HOME/.openclaw/.env`)을 로드합니다.
 - `KGOV_HIPASS_ID`, `KGOV_HIPASS_PW`를 읽습니다.
 - 로그인 후 사용내역 조회 화면에 접근합니다.
 - 날짜 범위를 적용해 조회합니다.

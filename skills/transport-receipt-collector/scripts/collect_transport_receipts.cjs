@@ -6,7 +6,7 @@ const os = require("node:os");
 const { spawnSync } = require("node:child_process");
 
 
-const DEFAULT_ENV_FILE = process.env.KGOV_ENV_FILE || "C:\\Users\\mouse\\.openclaw\\.env";
+const DEFAULT_ENV_FILE = process.env.KGOV_ENV_FILE || path.join(os.homedir(), ".openclaw", ".env");
 const DEFAULT_KSKILL_ENV_FILE = path.join(os.homedir(), ".config", "k-skill", "se" + "crets.env");
 
 function loadDotEnvFile(filePath = DEFAULT_ENV_FILE) {
@@ -46,7 +46,7 @@ Output:
   collect writes one PDF and one PNG for the selected receipt row.
 
 Notes:
-  - Default auth mode is idpw. The script loads C:\\Users\\mouse\\.openclaw\\.env by default.
+  - Default auth mode is idpw. The script loads KGOV_ENV_FILE or $HOME/.openclaw/.env by default.
   - Expected keys for hipass ID/PW: KGOV_HIPASS_ID and KGOV_HIPASS_PW.
   - Korail/SRT use existing booking credentials first: KTX/SRT account variables.
   - Use --auth-mode session to reuse a browser session after signing in manually.

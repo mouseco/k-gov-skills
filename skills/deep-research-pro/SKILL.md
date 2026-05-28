@@ -1,6 +1,6 @@
 ---
 name: deep-research-pro
-description: 출처 있는 심층조사 보고서가 필요할 때 사용하는 OpenClaw 맞춤 리서치 스킬. 단순 검색 답변이 아니라 정책·시장·기업·기술·제도·문헌·공공기관 보고서 근거를 여러 출처로 교차확인해 Executive Summary, 핵심 쟁점, 근거, 한계, 출처 목록을 만든다. Windows/OpenClaw 환경에서는 web_search, web_fetch, browser, pdf, korean-law 도구를 사용하고, /home/clawdbot DDG 스크립트나 리눅스 저장 경로는 사용하지 않는다.
+description: 출처 있는 심층조사 보고서가 필요할 때 사용하는 OpenClaw 맞춤 리서치 스킬. 단순 검색 답변이 아니라 정책·시장·기업·기술·제도·문헌·공공기관 보고서 근거를 여러 출처로 교차확인해 Executive Summary, 핵심 쟁점, 근거, 한계, 출처 목록을 만든다. Windows/OpenClaw 환경에서는 web_search, web_fetch, browser, pdf, korean-law 도구를 사용하고, 특정 로컬 환경 전용 검색 스크립트나 저장 경로는 사용하지 않는다.
 license: See docs/attribution.md
 metadata:
   category: research
@@ -33,7 +33,7 @@ metadata:
 
 ## OpenClaw 환경 기준
 
-이 워크스페이스에서는 원본 deep-research-pro의 리눅스/DDG 스크립트 경로를 사용하지 않는다.
+이 스킬은 특정 사용자나 운영환경에 묶인 검색 스크립트·저장 경로를 전제하지 않는다.
 
 ### 사용할 도구
 

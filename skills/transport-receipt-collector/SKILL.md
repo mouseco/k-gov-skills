@@ -109,7 +109,7 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs chrome-command --provider srt --debugging-port 9222
 ```
 
-하이패스 사용내역 조회 기본값은 로컬 계정 환경변수 기반 자동 로그인이다. 스크립트는 기본적으로 사용자 홈 아래의 OpenClaw 환경파일(`.openclaw/.env`)을 로드하며, 아래 키를 사용한다.
+하이패스 사용내역 조회 기본값은 로컬 계정 환경변수 기반 자동 로그인이다. 스크립트는 기본적으로 `KGOV_ENV_FILE` 또는 사용자 홈 아래의 환경파일(`$HOME/.openclaw/.env`)을 로드하며, 아래 키를 사용한다.
 
 ```text
 KGOV_HIPASS_ID=...

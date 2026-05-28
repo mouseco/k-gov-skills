@@ -28,11 +28,11 @@
 
 | 할 수 있는 일 | 스킬 이름 | 설명 | 사용자 로그인/자료 | 문서 |
 | --- | --- | --- | --- | --- |
-| 공공 보고서 작성 | `official-report-skillset` | 검토보고·계획보고·결과보고·간부보고 초안을 공공기관 문체와 의사결정 구조로 정리 | 불필요 | [공공 보고서 작성 가이드](docs/features/official-report-skillset.md) |
+| 공공 보고서 작성 | `official-report-skillset` | 검토보고·계획보고·결과보고·회의결과 보고 초안을 결재문서 구조로 정리하고, 계약 결과와 운영 계획이 함께 있는 문서는 `주요 내용` 아래에 단순하게 묶음 | 불필요 | [공공 보고서 작성 가이드](docs/features/official-report-skillset.md) |
 | 정책·제도 심층조사 | `deep-research-pro` | 법령·지침·공식자료·통계·사례를 출처와 함께 조사해 보고서 근거 메모 작성 | 불필요(비공개 자료는 사용자 제공 필요) | [심층 리서치 가이드](docs/features/deep-research-pro.md) |
 | HWPX 보고서 생성 | `hwpx-mouseco` | 공개 배포용 HWPX 템플릿을 분석하고 원페이퍼·다중페이퍼·장문 보고서 생성·검증 | 템플릿/보고서 JSON 필요 | [HWPX 보고서 생성 가이드](docs/features/hwpx-mouseco.md) |
 | 회의록 PDF 작성 | `gov-meeting-minutes` | 회의 메모·ClovaNote 전사를 1쪽 회의록과 상세 발언록이 포함된 공문서형 PDF로 정리 | 회의 메모/전사 필요 | [회의록 PDF 작성 가이드](docs/features/gov-meeting-minutes.md) |
-| 교통비 증빙 수집 | `transport-receipt-collector` | 출장·여비 정산용 하이패스·SRT·KTX/Korail 영수증을 PDF/PNG/JSON 산출물로 정리 | provider별 로컬 계정 정보 필요 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) |
+| 교통비 증빙 수집 | `transport-receipt-collector` | 출장·여비 정산용 하이패스·SRT·KTX/Korail 영수증을 PDF/PNG/JSON 산출물로 정리 | provider별 로컬 계정 정보 필요(`KGOV_ENV_FILE` 또는 `$HOME/.openclaw/.env`) | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) |
 | ALIO 기관별 공시 상세 확인 | `alio` | ALIO 기관별 공시에서 공공기관별 일반현황·임직원·임원·재무·주요사업 등 상세 공시를 확인해 근거 메모로 정리 | 불필요 | [ALIO 기관별 공시 상세 확인 가이드](docs/features/alio.md) |
 | HWP/HWPX 문서 읽기·변환 | `read-hwp` | HWP/HWPX/HWPML 문서를 Markdown/JSON으로 변환해 ALIO 내부규정·공시 첨부문서를 읽고 조항을 확인 | 문서 파일 필요 | [HWP/HWPX 문서 읽기·변환 가이드](docs/features/read-hwp.md) |
 | 한국 법령 검색 | `korean-law-search` | 국가법령정보센터/법제처 API 계열과 korean-law-mcp로 법령·조문·판례·해석례·자치법규를 확인 | 필요 시 법제처 API key | [한국 법령 검색 가이드](docs/features/korean-law-search.md) |
@@ -87,6 +87,8 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 | [국회 의안·입법 변화 추적 가이드](docs/features/national-assembly-tracker.md) | 법률안 진행상태와 입법 변화 후보 추적 |
 
 ## 포함된 기능
+
+현재 `skills/` 폴더와 README 기준 스킬 목록은 12개로 일치합니다.
 
 - [공공 보고서 작성](docs/features/official-report-skillset.md)
 - [정책·제도 심층조사](docs/features/deep-research-pro.md)
