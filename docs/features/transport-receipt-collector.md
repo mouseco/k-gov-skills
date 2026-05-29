@@ -19,7 +19,7 @@
 
 - 하이패스는 `KGOV_HIPASS_ID`, `KGOV_HIPASS_PW`로 자동 로그인합니다.
 - SRT는 로컬 SRT 계정 환경변수를 사용합니다.
-- KTX/Korail은 공개 저장소에 세부 구현을 두지 않고 로컬/private 커넥터를 통해 처리합니다.
+- KTX/Korail은 `ktx-booking` 스킬을 먼저 설치한 뒤, 그 스킬의 helper를 사용하는 로컬/private connector로 처리합니다. 공개 저장소에는 Korail 내부 호출 세부 구현을 두지 않습니다.
 - 추가 본인확인, CAPTCHA, 인증서 조작, 2차 인증 자동 통과는 공개 스킬 범위 밖입니다.
 - 계정 비밀번호, 인증번호, 카드번호 원문, 승차권 토큰은 저장소나 로그에 남기지 않습니다.
 
@@ -84,9 +84,15 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 
 ## KTX/Korail
 
-KTX/Korail은 공개 저장소에 내부 호출 세부사항을 포함하지 않습니다. 공개 스킬은 로컬/private 커넥터를 호출하는 구조만 제공합니다.
+KTX/Korail은 공개 저장소에 내부 호출 세부사항을 포함하지 않습니다. 공개 스킬은 `ktx-booking` 스킬의 helper를 사용하는 로컬/private connector를 호출하는 구조만 제공합니다.
 
-기본 실행은 실제 코레일톡 저장본 기준으로 확정한 **v3 코레일톡 스타일 영수증 PNG**와 redacted JSON을 저장합니다. 이 기능을 쓰려면 `KGOV_KORAIL_CONNECTOR`에 로컬 커넥터 스크립트 경로를 지정합니다.
+기본 실행은 실제 코레일톡 저장본 기준으로 확정한 **v3 코레일톡 스타일 영수증 PNG**와 redacted JSON을 저장합니다. 이 기능을 쓰려면 먼저 `ktx-booking` 스킬을 설치하고, `KGOV_KORAIL_CONNECTOR`에 그 helper를 불러 쓰는 영수증 connector 스크립트 경로를 지정합니다.
+
+예시:
+
+```powershell
+$env:KGOV_KORAIL_CONNECTOR="$HOME\.openclaw\private-connectors\korail_receipt_connector.py"
+```
 
 ```powershell
 node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2025-05-11 --end-date 2026-05-11 --row-index 20 --output-dir outputs\receipts\2026-05
@@ -118,7 +124,7 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 - 자동 로그인 실패나 세션 만료가 발생할 수 있습니다.
 - 조회 결과가 없으면 기간, 날짜 기준, 카드/승차권 조건을 다시 확인합니다.
 - 하이패스 PNG 저장이 실패하면 PDF 첫 페이지를 PNG로 렌더링합니다.
-- KTX/Korail 로컬 커넥터는 외부 서비스 변경 시 재검증이 필요합니다.
+- KTX/Korail은 `ktx-booking` helper와 외부 서비스 변경 시 재검증이 필요합니다.
 
 ## 관련 파일
 

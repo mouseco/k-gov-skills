@@ -5,7 +5,7 @@ This public note intentionally avoids listing internal Korail mobile URLs, endpo
 ## Scope
 
 - SRT: automate the public purchase-history/receipt page where account login and additional verification are permitted by the user.
-- KTX/Korail: use a local/private connector for receipt data collection, then save a KorailTalk-style receipt PNG and redacted JSON.
+- KTX/Korail: install the `ktx-booking` skill first, point `KGOV_KORAIL_CONNECTOR` to a local receipt connector that uses that skill's helper, then save a KorailTalk-style receipt PNG and redacted JSON.
 
 ## Public boundary
 
@@ -17,11 +17,11 @@ Do not publish:
 - Captured request/response payloads
 - Ticket tokens, card numbers, approval numbers, account identifiers, or authentication material
 
-The public repository may document the workflow shape and connector contract, but not the implementation details of the connector.
+The public repository may document the workflow shape and connector contract, but not Korail internal endpoint/request details. The expected private connector should reuse the helper shipped with the `ktx-booking` skill.
 
 ## Connector contract
 
-A Korail local connector should:
+A Korail local connector should normally import or otherwise reuse the `ktx-booking` skill helper. It should:
 
 1. Authenticate using local account configuration.
 2. Query the requested date range.
@@ -45,7 +45,11 @@ Expected stdout shape:
 }
 ```
 
-Use `KGOV_KORAIL_CONNECTOR` to point the public wrapper to the private connector script.
+Use `KGOV_KORAIL_CONNECTOR` to point the public wrapper to the local receipt connector script, for example:
+
+```powershell
+$env:KGOV_KORAIL_CONNECTOR="$HOME\.openclaw\private-connectors\korail_receipt_connector.py"
+```
 
 ## Safety rules
 

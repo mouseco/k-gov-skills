@@ -43,7 +43,7 @@ metadata:
 | --- | --- | --- | --- |
 | `hipass-idpw-login` | v0.3 지원 | 로컬 실행 환경에서 읽은 계정 정보 | 추가 본인확인 없이 로그인 가능한 경우 자동 로그인 후 조회·저장 |
 | `hipass-browser-session` | 대체 방식 | 사용자가 직접 로그인한 Chrome 세션 재사용 | ID/PW 자동 로그인이 막힐 때 같은 Chrome 세션으로 조회·저장 |
-| `korail-local-connector` | v0.3 지원 | KTX 계정 환경변수 + 로컬/private 커넥터 | 공개 저장소에는 내부 호출 세부사항을 두지 않고, 로컬 커넥터를 통해 영수증 PNG/JSON 저장 |
+| `korail-local-connector` | v0.3 지원 | `ktx-booking` 스킬 helper + KTX 계정 환경변수 | 공개 저장소에는 내부 호출 세부사항을 두지 않고, `ktx-booking` helper를 사용하는 로컬/private connector로 영수증 PNG/JSON 저장 |
 | `korail-browser-session` | v0.2 대체 지원 | 사용자 직접 로그인 세션 | 코레일/KTX 웹 구입이력 영수증 화면을 PNG로 크롭 저장 |
 | `srt-browser-session` | v0.3 지원 | 사용자 직접 로그인 세션 또는 로컬 계정 정보 | SRT 승차권 구입이력 영수증 화면을 PNG로 저장 |
 
@@ -87,7 +87,7 @@ outputs/receipts/2026-05/
 
 PNG 생성 우선순위:
 
-1. KTX/Korail은 로컬/private 커넥터가 반환한 공식 영수증 데이터로 확정된 v3 코레일톡 스타일 PNG를 렌더링한다.
+1. KTX/Korail은 `ktx-booking` 스킬을 먼저 설치하고, 그 helper를 사용하는 로컬/private connector에서 반환받은 공식 영수증 데이터로 확정된 v3 코레일톡 스타일 PNG를 렌더링한다.
 2. 하이패스는 1건 기준으로 영수증 출력 화면의 사각형 영수증 영역만 PNG로 캡처한다.
 3. SRT는 영수증 화면의 본문 영역을 PNG로 저장한다.
 4. PDF만 확보된 경우 PDF 첫 페이지를 PNG로 렌더링한다.
@@ -152,7 +152,7 @@ SRT 자동 로그인 → 이용내역 조회 → 선택 행 영수증 PNG 저장
 node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider srt --start-date 2026-02-09 --end-date 2026-05-09 --row-index 1 --output-dir outputs\receipts\2026-05
 ```
 
-KTX/Korail 로컬 커넥터 기반 영수증 저장:
+KTX/Korail `ktx-booking` helper 기반 영수증 저장:
 
 ```powershell
 node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2026-02-09 --end-date 2026-05-09 --row-index 1 --output-dir outputs\receipts\2026-05
@@ -165,10 +165,11 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 ```
 
 - 공개 저장소에는 Korail 내부 호출 URL, endpoint명, 파라미터명을 문서화하지 않는다.
-- Korail 경로는 `KGOV_KORAIL_CONNECTOR`로 지정한 로컬/private 커넥터를 통해 실행한다.
+- Korail 경로는 먼저 `ktx-booking` 스킬을 설치한 뒤, 그 helper를 불러 쓰는 영수증 connector를 `KGOV_KORAIL_CONNECTOR`로 지정해 실행한다.
+- `KGOV_KORAIL_CONNECTOR`는 `--start-date`, `--end-date`, `--row-index`, `--output-dir`, `--list-only`, `--render-local` 인자를 처리하고 JSON 요약을 stdout으로 출력하는 connector 스크립트여야 한다.
 - 정산 증빙의 기본 원칙은 **공식 영수증 데이터로 만든 코레일톡 스타일 영수증 PNG**를 산출하는 것이다.
 - 2026-05-11 실제 코레일톡 저장본 기준 검수로 `v3` 템플릿을 최종 기준으로 확정했다. 기준은 코레일톡 실제 저장본에서 QR 상단 영역을 제외한 짧은 영수증 본문 이미지다.
-- 기본 `collect-latest --provider korail` 실행은 로컬 커넥터가 설정된 경우 이 최종 템플릿 PNG를 생성한다. 데이터 점검만 할 때는 `--list-only` 또는 `--no-render-local`을 사용한다.
+- 기본 `collect-latest --provider korail` 실행은 `ktx-booking` helper 기반 connector가 `KGOV_KORAIL_CONNECTOR`로 설정된 경우 이 최종 템플릿 PNG를 생성한다. 데이터 점검만 할 때는 `--list-only` 또는 `--no-render-local`을 사용한다.
 
 자동 로그인부터 현재 화면 캡처까지 한 번에 시도:
 
