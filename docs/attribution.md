@@ -7,13 +7,13 @@
 - 성격: 외부 스킬을 Windows/OpenClaw 공공문서 리서치 환경에 맞게 조정한 파생·적응본
 - 확인된 설치 출처: ClawHub `deep-research-pro`
 - 확인된 설치 버전: `1.0.2`
-- 로컬 기준 원본 위치: 설치 환경의 `workspace/skills/deep-research-pro`
+- 기준 원본 위치: 설치 환경의 OpenClaw/ClawHub 스킬 디렉터리
 - k-gov 저장소 반영 성격: 공공기관 보고서 근거조사용 OpenClaw Edition
 
 ### 주요 수정 방향
 
-- 특정 로컬 환경 전용 검색 스크립트·저장 경로 제거
-- Windows/OpenClaw 작업 경로 기준으로 재작성
+- 특정 사용자·로컬 환경 전용 검색 스크립트와 절대 저장 경로 제거
+- 공개 저장소 사용자가 자기 작업 경로에서 쓸 수 있도록 상대 경로 중심으로 재작성
 - `web_search`, `web_fetch`, browser/PDF/korean-law 도구 사용 기준 명시
 - 공공기관 정책·법령·지침·통계·공식자료 우선순위 보강
 - 보고서 산출물 형식과 검증 스크립트 기준 보강
@@ -43,7 +43,7 @@
 ## read-hwp
 
 - 성격: `NomaDamas/k-skill` 원본을 공공기관 문서 검토 흐름에 필요해 가져와 일부만 가공한 파생·적응본
-- 확인된 로컬 원본 위치: 설치 환경의 `.agents/skills/hwp`
+- 확인된 원본 위치: `NomaDamas/k-skill` 저장소의 `hwp/`
 - k-gov 저장소 반영 이름: `read-hwp`
 - k-gov 저장소 반영 성격: ALIO 내부규정, 공공기관 첨부 HWP/HWPX 문서를 Markdown/JSON으로 읽기 위한 보조 스킬
 
@@ -60,7 +60,7 @@
 ## korean-law-search
 
 - 성격: `NomaDamas/k-skill` 원본을 공공기관 법령 근거조사에 필요해 가져와 일부만 가공한 파생·적응본
-- 확인된 로컬 원본 위치: 설치 환경의 `.agents/skills/korean-law-search`
+- 확인된 원본 위치: `NomaDamas/k-skill` 저장소의 `korean-law-search/`
 - k-gov 저장소 반영 이름: `korean-law-search`
 - k-gov 저장소 반영 성격: 국가법령정보센터/법제처 API 계열, `korean-law-mcp`, 법망 fallback을 활용해 법령·조문·판례·해석례·자치법규를 확인하는 보조 스킬
 
@@ -99,6 +99,6 @@
 
 - `official-report-skillset`
 - `hwpx-mouseco`
-- `gov-meeting-brief`
+- `gov-meeting-minutes`
 
 단, 각 스킬이 참조하는 공개 프로젝트, 표준, 문서 포맷, 오픈소스 도구의 권리는 각 원 출처에 있다.
