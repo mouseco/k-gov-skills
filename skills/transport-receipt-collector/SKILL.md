@@ -154,19 +154,34 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 
 KTX/Korail `ktx-booking` helper 기반 영수증 저장:
 
+KTX/Korail은 먼저 connector 경로부터 확인한다. `KGOV_KORAIL_CONNECTOR`는 폴더가 아니라 실행 가능한 Python connector 파일 경로여야 한다.
+
 ```powershell
-node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2026-02-09 --end-date 2026-05-09 --row-index 1 --output-dir outputs\receipts\2026-05
+cd C:\path\to\k-gov-skills
+$env:KGOV_KORAIL_CONNECTOR="C:\Users\<you>\.openclaw\private-connectors\korail_receipt_connector.py"
+Test-Path $env:KGOV_KORAIL_CONNECTOR
+python $env:KGOV_KORAIL_CONNECTOR --help
 ```
 
-위 명령은 기본적으로 최종 확정된 코레일톡 스타일 영수증 PNG와 redacted JSON을 저장한다. 목록만 확인하려면 `--list-only`를 붙인다.
+경로가 확인되면 목록 조회부터 실행한다.
 
 ```powershell
 node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2026-02-09 --end-date 2026-05-09 --list-only
 ```
 
+목록이 보이면 저장을 실행한다.
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2026-02-09 --end-date 2026-05-09 --row-index 1 --output-dir outputs\receipts\2026-05
+```
+
+위 명령은 기본적으로 최종 확정된 코레일톡 스타일 영수증 PNG와 redacted JSON을 저장한다.
+
 - 공개 저장소에는 Korail 내부 호출 URL, endpoint명, 파라미터명을 문서화하지 않는다.
 - Korail 경로는 먼저 `ktx-booking` 스킬을 설치한 뒤, 그 helper를 불러 쓰는 영수증 connector를 `KGOV_KORAIL_CONNECTOR`로 지정해 실행한다.
 - `KGOV_KORAIL_CONNECTOR`는 `--start-date`, `--end-date`, `--row-index`, `--output-dir`, `--list-only`, `--render-local` 인자를 처리하고 JSON 요약을 stdout으로 출력하는 connector 스크립트여야 한다.
+- `Korail receipt collection requires a local/private connector`는 connector 미지정, `Korail connector not found`는 파일 경로 오류다.
+- `--output-dir` 상대경로가 헷갈리면 절대경로를 사용한다.
 - 정산 증빙의 기본 원칙은 **공식 영수증 데이터로 만든 코레일톡 스타일 영수증 PNG**를 산출하는 것이다.
 - 2026-05-11 실제 코레일톡 저장본 기준 검수로 `v3` 템플릿을 최종 기준으로 확정했다. 기준은 코레일톡 실제 저장본에서 QR 상단 영역을 제외한 짧은 영수증 본문 이미지다.
 - 기본 `collect-latest --provider korail` 실행은 `ktx-booking` helper 기반 connector가 `KGOV_KORAIL_CONNECTOR`로 설정된 경우 이 최종 템플릿 PNG를 생성한다. 데이터 점검만 할 때는 `--list-only` 또는 `--no-render-local`을 사용한다.

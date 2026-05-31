@@ -88,20 +88,45 @@ KTX/Korail은 공개 저장소에 내부 호출 세부사항을 포함하지 않
 
 기본 실행은 실제 코레일톡 저장본 기준으로 확정한 **v3 코레일톡 스타일 영수증 PNG**와 redacted JSON을 저장합니다. 이 기능을 쓰려면 먼저 `ktx-booking` 스킬을 설치하고, `KGOV_KORAIL_CONNECTOR`에 그 helper를 불러 쓰는 영수증 connector 스크립트 경로를 지정합니다.
 
-예시:
+### KTX/Korail 경로 설정 빠른 점검
+
+가장 많이 막히는 부분은 `KGOV_KORAIL_CONNECTOR`입니다. 이 값은 **폴더가 아니라 실행 가능한 Python connector 파일 경로**여야 합니다.
+
+권장 실행 위치는 `k-gov-skills` 저장소 루트입니다. 즉 `README.md`와 `skills` 폴더가 보이는 폴더에서 실행합니다.
+
+```powershell
+cd C:\path\to\k-gov-skills
+```
+
+connector는 가능하면 절대경로로 지정합니다.
+
+```powershell
+$env:KGOV_KORAIL_CONNECTOR="C:\Users\<you>\.openclaw\private-connectors\korail_receipt_connector.py"
+```
+
+`$HOME`을 써도 되지만, 경로 문제를 확인할 때는 먼저 절대경로가 안전합니다.
 
 ```powershell
 $env:KGOV_KORAIL_CONNECTOR="$HOME\.openclaw\private-connectors\korail_receipt_connector.py"
 ```
 
+실행 전 아래 두 줄이 모두 `True` 또는 help 출력을 보여야 합니다.
+
 ```powershell
-node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2025-05-11 --end-date 2026-05-11 --row-index 20 --output-dir outputs\receipts\2026-05
+Test-Path $env:KGOV_KORAIL_CONNECTOR
+python $env:KGOV_KORAIL_CONNECTOR --help
 ```
 
-목록만 확인하려면:
+그다음 목록 조회부터 확인합니다.
 
 ```powershell
 node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2025-05-11 --end-date 2026-05-11 --list-only
+```
+
+목록이 보이면 저장을 실행합니다.
+
+```powershell
+node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2025-05-11 --end-date 2026-05-11 --row-index 20 --output-dir outputs\receipts\2026-05
 ```
 
 렌더링 없이 API 응답 확인만 하려면:
@@ -109,6 +134,14 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 ```powershell
 node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs collect-latest --provider korail --start-date 2025-05-11 --end-date 2026-05-11 --row-index 1 --no-render-local
 ```
+
+### KTX/Korail 경로 오류 체크리스트
+
+- `Korail receipt collection requires a local/private connector`가 나오면 `KGOV_KORAIL_CONNECTOR`가 비어 있거나 `--connector`를 주지 않은 상태입니다.
+- `Korail connector not found`가 나오면 connector 파일 경로가 틀렸습니다. 폴더 경로가 아니라 `.py` 파일까지 포함해야 합니다.
+- `python ... --help`가 실패하면 transport 스킬 문제가 아니라 connector 설치 또는 Python 실행 환경 문제입니다.
+- `--output-dir outputs\receipts\2026-05` 같은 상대경로는 현재 셸 위치 기준으로 해석됩니다. 헷갈리면 `C:\path\to\receipts\2026-05`처럼 절대경로를 사용합니다.
+- `ktx-booking` 스킬이 설치되어 있지 않으면 connector가 내부 helper를 찾지 못할 수 있습니다. 이 경우 `ktx-booking` 설치 경로와 connector 안의 import 경로를 먼저 확인합니다.
 
 ## 결과 확인 포인트
 

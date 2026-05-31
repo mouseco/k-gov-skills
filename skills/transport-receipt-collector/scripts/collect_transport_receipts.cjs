@@ -8,6 +8,7 @@ const { spawnSync } = require("node:child_process");
 
 const DEFAULT_ENV_FILE = process.env.KGOV_ENV_FILE || path.join(os.homedir(), ".openclaw", ".env");
 const DEFAULT_KSKILL_ENV_FILE = path.join(os.homedir(), ".config", "k-skill", "se" + "crets.env");
+const REPO_ROOT = path.resolve(__dirname, "..", "..", "..");
 
 function loadDotEnvFile(filePath = DEFAULT_ENV_FILE) {
   if (!filePath || !fs.existsSync(filePath)) return false;
@@ -40,7 +41,7 @@ Commands:
   node collect_transport_receipts.cjs open-history --provider korail|srt [--cdp-url URL] [--headless]
   node collect_transport_receipts.cjs capture-current --provider korail|srt [--cdp-url URL] [--selector CSS] [--crop x,y,w,h] [--output-dir DIR] [--base-name NAME] [--pdf]
   node collect_transport_receipts.cjs collect-current --provider korail|srt [--cdp-url URL] [--output-dir DIR] [--base-name NAME]
-  node collect_transport_receipts.cjs collect-latest --provider korail|srt [--start-date YYYY-MM-DD] [--end-date YYYY-MM-DD] [--row-index N] [--output-dir DIR] [--base-name NAME] [--list-only] [--render-local] [--no-render-local]
+  node collect_transport_receipts.cjs collect-latest --provider korail|srt [--start-date YYYY-MM-DD] [--end-date YYYY-MM-DD] [--row-index N] [--output-dir DIR] [--base-name NAME] [--connector FILE] [--list-only] [--render-local] [--no-render-local]
 
 Output:
   collect writes one PDF and one PNG for the selected receipt row.
@@ -49,6 +50,8 @@ Notes:
   - Default auth mode is idpw. The script loads KGOV_ENV_FILE or $HOME/.openclaw/.env by default.
   - Expected keys for hipass ID/PW: KGOV_HIPASS_ID and KGOV_HIPASS_PW.
   - Korail/SRT use existing booking credentials first: KTX/SRT account variables.
+  - Korail requires a local/private connector. Set KGOV_KORAIL_CONNECTOR to an absolute connector path, or pass --connector FILE.
+  - Relative --output-dir values are resolved from the shell's current directory for browser flows. The Korail connector is run from the k-gov-skills repository root: ${REPO_ROOT}.
   - Use --auth-mode session to reuse a browser session after signing in manually.
   - Use --headless for v2 no-window ID/PW runs. Headless does not support manual session login.
   - If extra identity checks appear, stop and let the user finish them in the browser.
@@ -88,6 +91,16 @@ function normalizeProvider(args = {}) {
     throw new Error(`Unsupported provider: ${provider}`);
   }
   return provider;
+}
+
+function expandUserPath(inputPath) {
+  if (!inputPath) return inputPath;
+  const text = String(inputPath);
+  if (text === "~") return os.homedir();
+  if (text.startsWith(`~${path.sep}`) || text.startsWith("~/") || text.startsWith("~\\")) {
+    return path.join(os.homedir(), text.slice(2));
+  }
+  return text;
 }
 
 function assertHipassProvider(args) {
@@ -637,19 +650,22 @@ function collectLatestKorailReceipt(args = {}) {
   resolveTrainCredentials(provider, args);
   const connectorPath = args.connector || process.env.KGOV_KORAIL_CONNECTOR;
   if (!connectorPath) {
-    throw new Error("Korail receipt collection requires a local/private connector. Set KGOV_KORAIL_CONNECTOR to the connector script path.");
+    throw new Error("Korail receipt collection requires a local/private connector. Set KGOV_KORAIL_CONNECTOR to an absolute connector script path, or pass --connector <path>.");
   }
-  const scriptPath = path.resolve(connectorPath);
-  if (!fs.existsSync(scriptPath)) throw new Error(`Korail connector not found: ${scriptPath}`);
+  const expandedConnectorPath = expandUserPath(connectorPath);
+  const scriptPath = path.isAbsolute(expandedConnectorPath) ? path.normalize(expandedConnectorPath) : path.resolve(REPO_ROOT, expandedConnectorPath);
+  if (!fs.existsSync(scriptPath)) {
+    throw new Error(`Korail connector not found: ${scriptPath}\nSet KGOV_KORAIL_CONNECTOR to an absolute path, for example: $env:KGOV_KORAIL_CONNECTOR=\"$HOME\\.openclaw\\private-connectors\\korail_receipt_connector.py\"`);
+  }
   const startDate = args.startDate || isoDate(addDays(new Date(`${todayForFilename()}T00:00:00Z`), -89));
   const endDate = args.endDate || todayForFilename();
   const childArgs = [scriptPath, "--start-date", startDate, "--end-date", endDate, "--row-index", String(args.rowIndex || 1)];
-  if (args.outputDir) childArgs.push("--output-dir", args.outputDir);
+  if (args.outputDir) childArgs.push("--output-dir", path.resolve(process.cwd(), expandUserPath(args.outputDir)));
   if (args.baseName) childArgs.push("--base-name", args.baseName);
   if (isTruthy(args.listOnly)) childArgs.push("--list-only");
   if (!isTruthy(args.noRenderLocal)) childArgs.push("--render-local");
   const child = spawnSync("python", childArgs, {
-    cwd: path.resolve(__dirname, "..", "..", ".."),
+    cwd: REPO_ROOT,
     encoding: "utf8",
     env: { ...process.env, PYTHONIOENCODING: "utf-8", PYTHONUTF8: "1" },
     maxBuffer: 1024 * 1024 * 4,

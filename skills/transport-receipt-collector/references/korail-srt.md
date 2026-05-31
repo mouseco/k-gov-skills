@@ -45,11 +45,21 @@ Expected stdout shape:
 }
 ```
 
-Use `KGOV_KORAIL_CONNECTOR` to point the public wrapper to the local receipt connector script, for example:
+Use `KGOV_KORAIL_CONNECTOR` to point the public wrapper to the local receipt connector script. This must be a Python file path, not a directory path. Prefer an absolute path when debugging path issues:
+
+```powershell
+$env:KGOV_KORAIL_CONNECTOR="C:\Users\<you>\.openclaw\private-connectors\korail_receipt_connector.py"
+Test-Path $env:KGOV_KORAIL_CONNECTOR
+python $env:KGOV_KORAIL_CONNECTOR --help
+```
+
+`$HOME` is also supported:
 
 ```powershell
 $env:KGOV_KORAIL_CONNECTOR="$HOME\.openclaw\private-connectors\korail_receipt_connector.py"
 ```
+
+Run the public wrapper from the `k-gov-skills` repository root, where `README.md` and the `skills` directory are visible. If `--output-dir` is relative, use it only after checking the current shell directory, or pass an absolute output path.
 
 ## Safety rules
 
