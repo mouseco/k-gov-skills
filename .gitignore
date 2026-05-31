@@ -27,6 +27,7 @@ extracted/
 !skills/**/assets/**/*.hwpx
 !skills/**/examples/**/*.hwpx
 !skills/**/templates/**/*.hwpx
+!skills/**/references/trip_sample_public.hwp
 
 # Private local regression fixtures are never published.
 test-fixtures/private/
