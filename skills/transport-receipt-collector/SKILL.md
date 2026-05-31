@@ -154,10 +154,13 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 
 KTX/Korail `ktx-booking` helper 기반 영수증 저장:
 
-KTX/Korail은 먼저 connector 경로부터 확인한다. `KGOV_KORAIL_CONNECTOR`는 폴더가 아니라 실행 가능한 Python connector 파일 경로여야 한다.
+KTX/Korail은 먼저 connector 경로부터 확인한다. 공개 저장소에는 실사용 `korail_receipt_connector.py`가 아니라 계약 예시인 `korail_receipt_connector.example.py`만 포함한다. 실사용 connector는 개인 경로에 복사해 구현한 뒤 `KGOV_KORAIL_CONNECTOR`로 지정한다.
 
 ```powershell
 cd C:\path\to\k-gov-skills
+Test-Path .\skills\transport-receipt-collector\scripts\korail_receipt_connector.example.py
+New-Item -ItemType Directory -Force "$HOME\.openclaw\private-connectors"
+Copy-Item .\skills\transport-receipt-collector\scripts\korail_receipt_connector.example.py "$HOME\.openclaw\private-connectors\korail_receipt_connector.py"
 $env:KGOV_KORAIL_CONNECTOR="C:\Users\<you>\.openclaw\private-connectors\korail_receipt_connector.py"
 Test-Path $env:KGOV_KORAIL_CONNECTOR
 python $env:KGOV_KORAIL_CONNECTOR --help
@@ -180,6 +183,7 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 - 공개 저장소에는 Korail 내부 호출 URL, endpoint명, 파라미터명을 문서화하지 않는다.
 - Korail 경로는 먼저 `ktx-booking` 스킬을 설치한 뒤, 그 helper를 불러 쓰는 영수증 connector를 `KGOV_KORAIL_CONNECTOR`로 지정해 실행한다.
 - `KGOV_KORAIL_CONNECTOR`는 `--start-date`, `--end-date`, `--row-index`, `--output-dir`, `--list-only`, `--render-local` 인자를 처리하고 JSON 요약을 stdout으로 출력하는 connector 스크립트여야 한다.
+- 공개 예시 connector는 실행 계약 확인용이며 `status: not_implemented_public_example`을 반환한다. 실제 영수증 저장에는 개인 구현 connector가 필요하다.
 - `Korail receipt collection requires a local/private connector`는 connector 미지정, `Korail connector not found`는 파일 경로 오류다.
 - `--output-dir` 상대경로가 헷갈리면 절대경로를 사용한다.
 - 정산 증빙의 기본 원칙은 **공식 영수증 데이터로 만든 코레일톡 스타일 영수증 PNG**를 산출하는 것이다.

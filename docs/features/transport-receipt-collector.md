@@ -86,6 +86,8 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 
 KTX/Korail은 공개 저장소에 내부 호출 세부사항을 포함하지 않습니다. 공개 스킬은 `ktx-booking` 스킬의 helper를 사용하는 로컬/private connector를 호출하는 구조만 제공합니다.
 
+중요: 공개 저장소에는 바로 실행 가능한 실사용 `korail_receipt_connector.py`를 포함하지 않습니다. 대신 connector 계약을 보여 주는 `skills/transport-receipt-collector/scripts/korail_receipt_connector.example.py`를 제공합니다. 실제 사용자는 이 예시 파일을 개인 경로에 복사한 뒤, 자기 환경의 `ktx-booking` helper에 맞춰 구현하고 `KGOV_KORAIL_CONNECTOR`로 지정해야 합니다.
+
 기본 실행은 실제 코레일톡 저장본 기준으로 확정한 **v3 코레일톡 스타일 영수증 PNG**와 redacted JSON을 저장합니다. 이 기능을 쓰려면 먼저 `ktx-booking` 스킬을 설치하고, `KGOV_KORAIL_CONNECTOR`에 그 helper를 불러 쓰는 영수증 connector 스크립트 경로를 지정합니다.
 
 ### KTX/Korail 경로 설정 빠른 점검
@@ -98,7 +100,20 @@ KTX/Korail은 공개 저장소에 내부 호출 세부사항을 포함하지 않
 cd C:\path\to\k-gov-skills
 ```
 
-connector는 가능하면 절대경로로 지정합니다.
+먼저 공개 예시 파일이 있는지 확인합니다.
+
+```powershell
+Test-Path .\skills\transport-receipt-collector\scripts\korail_receipt_connector.example.py
+```
+
+이 파일은 실행 계약을 보여 주는 템플릿입니다. 실사용 connector는 공개 저장소 밖의 개인 경로에 둡니다.
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\.openclaw\private-connectors"
+Copy-Item .\skills\transport-receipt-collector\scripts\korail_receipt_connector.example.py "$HOME\.openclaw\private-connectors\korail_receipt_connector.py"
+```
+
+그다음 복사한 `korail_receipt_connector.py` 안의 `collect_receipt` 함수를 자기 환경에 맞게 구현합니다. 구현이 끝나면 connector는 가능하면 절대경로로 지정합니다.
 
 ```powershell
 $env:KGOV_KORAIL_CONNECTOR="C:\Users\<you>\.openclaw\private-connectors\korail_receipt_connector.py"
@@ -140,6 +155,7 @@ node skills\transport-receipt-collector\scripts\collect_transport_receipts.cjs c
 - `Korail receipt collection requires a local/private connector`가 나오면 `KGOV_KORAIL_CONNECTOR`가 비어 있거나 `--connector`를 주지 않은 상태입니다.
 - `Korail connector not found`가 나오면 connector 파일 경로가 틀렸습니다. 폴더 경로가 아니라 `.py` 파일까지 포함해야 합니다.
 - `python ... --help`가 실패하면 transport 스킬 문제가 아니라 connector 설치 또는 Python 실행 환경 문제입니다.
+- 공개 예시 connector는 `status: not_implemented_public_example`을 반환하고 종료 코드 2로 끝납니다. 이것은 정상입니다. 실제 영수증 저장에는 개인 구현 connector가 필요합니다.
 - `--output-dir outputs\receipts\2026-05` 같은 상대경로는 현재 셸 위치 기준으로 해석됩니다. 헷갈리면 `C:\path\to\receipts\2026-05`처럼 절대경로를 사용합니다.
 - `ktx-booking` 스킬이 설치되어 있지 않으면 connector가 내부 helper를 찾지 못할 수 있습니다. 이 경우 `ktx-booking` 설치 경로와 connector 안의 import 경로를 먼저 확인합니다.
 

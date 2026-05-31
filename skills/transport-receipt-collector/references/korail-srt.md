@@ -45,9 +45,14 @@ Expected stdout shape:
 }
 ```
 
-Use `KGOV_KORAIL_CONNECTOR` to point the public wrapper to the local receipt connector script. This must be a Python file path, not a directory path. Prefer an absolute path when debugging path issues:
+The public repository includes `scripts/korail_receipt_connector.example.py` as a connector-contract template only. It is intentionally not a production Korail connector.
+
+Copy the example to a private location, implement it with your installed `ktx-booking` helper, then use `KGOV_KORAIL_CONNECTOR` to point the public wrapper to that private connector script. This must be a Python file path, not a directory path. Prefer an absolute path when debugging path issues:
 
 ```powershell
+Test-Path .\skills\transport-receipt-collector\scripts\korail_receipt_connector.example.py
+New-Item -ItemType Directory -Force "$HOME\.openclaw\private-connectors"
+Copy-Item .\skills\transport-receipt-collector\scripts\korail_receipt_connector.example.py "$HOME\.openclaw\private-connectors\korail_receipt_connector.py"
 $env:KGOV_KORAIL_CONNECTOR="C:\Users\<you>\.openclaw\private-connectors\korail_receipt_connector.py"
 Test-Path $env:KGOV_KORAIL_CONNECTOR
 python $env:KGOV_KORAIL_CONNECTOR --help
