@@ -50,7 +50,7 @@ Notes:
   - Default auth mode is idpw. The script loads KGOV_ENV_FILE or $HOME/.openclaw/.env by default.
   - Expected keys for hipass ID/PW: KGOV_HIPASS_ID and KGOV_HIPASS_PW.
   - Korail/SRT use existing booking credentials first: KTX/SRT account variables.
-  - Korail requires a local/private connector. Set KGOV_KORAIL_CONNECTOR to an absolute connector path, or pass --connector FILE.
+  - Korail uses the bundled connector by default. Override with KGOV_KORAIL_CONNECTOR or --connector FILE when needed.
   - Relative --output-dir values are resolved from the shell's current directory for browser flows. The Korail connector is run from the k-gov-skills repository root: ${REPO_ROOT}.
   - Use --auth-mode session to reuse a browser session after signing in manually.
   - Use --headless for v2 no-window ID/PW runs. Headless does not support manual session login.
@@ -648,14 +648,11 @@ function collectLatestKorailReceipt(args = {}) {
   const provider = normalizeProvider(args);
   if (provider !== "korail") throw new Error("collectLatestKorailReceipt supports --provider korail only.");
   resolveTrainCredentials(provider, args);
-  const connectorPath = args.connector || process.env.KGOV_KORAIL_CONNECTOR;
-  if (!connectorPath) {
-    throw new Error("Korail receipt collection requires a local/private connector. Set KGOV_KORAIL_CONNECTOR to an absolute connector script path, or pass --connector <path>.");
-  }
+  const connectorPath = args.connector || process.env.KGOV_KORAIL_CONNECTOR || path.join(__dirname, "korail_receipt_connector.py");
   const expandedConnectorPath = expandUserPath(connectorPath);
   const scriptPath = path.isAbsolute(expandedConnectorPath) ? path.normalize(expandedConnectorPath) : path.resolve(REPO_ROOT, expandedConnectorPath);
   if (!fs.existsSync(scriptPath)) {
-    throw new Error(`Korail connector not found: ${scriptPath}\nSet KGOV_KORAIL_CONNECTOR to an absolute path, for example: $env:KGOV_KORAIL_CONNECTOR=\"$HOME\\.openclaw\\private-connectors\\korail_receipt_connector.py\"`);
+    throw new Error(`Korail connector not found: ${scriptPath}\nThe bundled connector should exist at skills\\transport-receipt-collector\\scripts\\korail_receipt_connector.py. Override with --connector <path> or KGOV_KORAIL_CONNECTOR only when using a custom connector.`);
   }
   const startDate = args.startDate || isoDate(addDays(new Date(`${todayForFilename()}T00:00:00Z`), -89));
   const endDate = args.endDate || todayForFilename();

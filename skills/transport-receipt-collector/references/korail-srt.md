@@ -45,23 +45,19 @@ Expected stdout shape:
 }
 ```
 
-The public repository includes `scripts/korail_receipt_connector.example.py` as a connector-contract template only. It is intentionally not a production Korail connector.
+The public repository includes `scripts/korail_receipt_connector.py` as the default Korail receipt connector. It reuses the installed `ktx-booking` helper, queries Korail purchase-history receipt data, saves redacted JSON, and renders a KorailTalk-style PNG when `--render-local` is enabled.
 
-Copy the example to a private location, implement it with your installed `ktx-booking` helper, then use `KGOV_KORAIL_CONNECTOR` to point the public wrapper to that private connector script. This must be a Python file path, not a directory path. Prefer an absolute path when debugging path issues:
+Check the bundled connector first:
 
 ```powershell
-Test-Path .\skills\transport-receipt-collector\scripts\korail_receipt_connector.example.py
-New-Item -ItemType Directory -Force "$HOME\.openclaw\private-connectors"
-Copy-Item .\skills\transport-receipt-collector\scripts\korail_receipt_connector.example.py "$HOME\.openclaw\private-connectors\korail_receipt_connector.py"
-$env:KGOV_KORAIL_CONNECTOR="C:\Users\<you>\.openclaw\private-connectors\korail_receipt_connector.py"
-Test-Path $env:KGOV_KORAIL_CONNECTOR
-python $env:KGOV_KORAIL_CONNECTOR --help
+Test-Path .\skills\transport-receipt-collector\scripts\korail_receipt_connector.py
+python .\skills\transport-receipt-collector\scripts\korail_receipt_connector.py --help
 ```
 
-`$HOME` is also supported:
+`KGOV_KORAIL_CONNECTOR` is optional. Use it only when you want to override the bundled connector with a private/custom connector. It must be a Python file path, not a directory path:
 
 ```powershell
-$env:KGOV_KORAIL_CONNECTOR="$HOME\.openclaw\private-connectors\korail_receipt_connector.py"
+$env:KGOV_KORAIL_CONNECTOR="C:\Users\<you>\.openclaw\private-connectors\korail_receipt_connector.py"
 ```
 
 Run the public wrapper from the `k-gov-skills` repository root, where `README.md` and the `skills` directory are visible. If `--output-dir` is relative, use it only after checking the current shell directory, or pass an absolute output path.
