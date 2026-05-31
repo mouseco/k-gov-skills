@@ -33,7 +33,7 @@
 | HWPX 보고서 생성 | `hwpx-mouseco` | 공개 배포용 HWPX 템플릿을 분석하고 원페이퍼·다중페이퍼·장문 보고서 생성·검증 | 템플릿/보고서 JSON 필요 | [HWPX 보고서 생성 가이드](docs/features/hwpx-mouseco.md) |
 | 회의록 PDF 작성 | `gov-meeting-minutes` | 회의 메모·ClovaNote 전사를 1쪽 회의록과 상세 발언록이 포함된 공문서형 PDF로 정리 | 회의 메모/전사 필요 | [회의록 PDF 작성 가이드](docs/features/gov-meeting-minutes.md) |
 | 교통비 증빙 수집 | `transport-receipt-collector` | 출장·여비 정산용 하이패스·SRT·KTX/Korail 영수증을 PDF/PNG/JSON 산출물로 정리 | provider별 로컬 계정 정보 필요. KTX/Korail은 `ktx-booking` 스킬 설치 후 기본 `korail_receipt_connector.py` 사용 | [교통비 증빙 수집 가이드](docs/features/transport-receipt-collector.md) |
-| 출장증빙 HWP 작성 | `trip-expense-hwp` | 출장비 정산서 HWP와 교통 영수증 PNG/PDF를 검증 가능한 ZIP 패키지로 정리 | 출장 정보와 영수증 파일 필요. 공개판은 부서명·출장자명·카드번호 기본값 없음 | [출장증빙 HWP 작성 가이드](docs/features/trip-expense-hwp.md) |
+| 출장증빙 HWP 작성 | `trip-expense-hwp` | 출장비 정산서 HWP와 교통 영수증 PNG/PDF를 검증 가능한 ZIP 패키지로 정리 | **`transport-receipt-collector` 설치 필수**. 출장 정보와 영수증 파일 필요. 공개판은 부서명·출장자명·카드번호 기본값 없음 | [출장증빙 HWP 작성 가이드](docs/features/trip-expense-hwp.md) |
 | ALIO 기관별 공시 상세 확인 | `alio` | ALIO 기관별 공시에서 공공기관별 일반현황·임직원·임원·재무·주요사업 등 상세 공시를 확인해 근거 메모로 정리 | 불필요 | [ALIO 기관별 공시 상세 확인 가이드](docs/features/alio.md) |
 | HWP/HWPX 문서 읽기·변환 | `read-hwp` | HWP/HWPX/HWPML 문서를 Markdown/JSON으로 변환해 ALIO 내부규정·공시 첨부문서를 읽고 조항을 확인 | 문서 파일 필요 | [HWP/HWPX 문서 읽기·변환 가이드](docs/features/read-hwp.md) |
 | 한국 법령 검색 | `korean-law-search` | 국가법령정보센터/법제처 API 계열과 korean-law-mcp로 법령·조문·판례·해석례·자치법규를 확인 | 필요 시 법제처 API key | [한국 법령 검색 가이드](docs/features/korean-law-search.md) |
@@ -57,6 +57,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/deep-research-pro
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/hwpx-mouseco
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/gov-meeting-minutes
+# trip-expense-hwp는 transport-receipt-collector 설치가 필수입니다.
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/transport-receipt-collector
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/trip-expense-hwp
 $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/alio
@@ -98,7 +99,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 - [HWPX 보고서 생성](docs/features/hwpx-mouseco.md)
 - [회의록 PDF 작성](docs/features/gov-meeting-minutes.md)
 - [교통비 증빙 수집](docs/features/transport-receipt-collector.md)
-- [출장증빙 HWP 작성](docs/features/trip-expense-hwp.md)
+- [출장증빙 HWP 작성](docs/features/trip-expense-hwp.md) - `transport-receipt-collector` 설치 필수
 - [ALIO 기관별 공시 상세 확인](docs/features/alio.md)
 - [HWP/HWPX 문서 읽기·변환](docs/features/read-hwp.md)
 - [한국 법령 검색](docs/features/korean-law-search.md)

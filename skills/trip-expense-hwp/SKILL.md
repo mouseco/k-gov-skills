@@ -14,6 +14,8 @@ metadata:
 
 출장·여비 정산에 필요한 출장증빙 HWP와 영수증 파일 묶음을 만든다. 사용자는 출장일, 출장지, 출장사유, 식비 차감 여부, 교통편을 알려 주고, 스킬은 템플릿 복사, 필드 채우기, 영수증 이미지 연결, 최종 검증 절차를 안내한다.
 
+**필수 선행 스킬:** `transport-receipt-collector`가 설치되어 있어야 한다. 이 스킬은 영수증 수집을 직접 구현하지 않고, KTX/SRT/하이패스 영수증 수집은 `transport-receipt-collector`에 위임한다.
+
 이 공개판은 개인·기관 전용 기본값을 포함하지 않는다. 부서명, 출장자명, 카드번호 뒤 4자리, 내부 문서번호, 회사메일 주소는 사용자가 매번 제공하거나 로컬 환경에서만 관리한다.
 
 ## When to use
@@ -32,7 +34,7 @@ metadata:
 
 ## Linked skills
 
-- `transport-receipt-collector`: KTX/SRT/하이패스 영수증 PDF/PNG 수집
+- `transport-receipt-collector` **필수**: KTX/SRT/하이패스 영수증 PDF/PNG 수집
 - `read-hwp`: HWP/HWPX 텍스트 확인과 필드 검증
 - `rhwp-edit`: HWP 필드 수정과 이미지 스트림 교체
 - `hwpx-mouseco` 또는 HWPX 계열 스킬: 템플릿/프로파일 관리 원칙 참고
@@ -140,7 +142,7 @@ outputs/trip-expense/YYYY-MM/
 
 ## Receipt collection
 
-교통 영수증은 `transport-receipt-collector`를 우선 사용한다.
+교통 영수증은 **필수 선행 스킬인 `transport-receipt-collector`**를 사용한다. 설치되어 있지 않으면 영수증 자동 수집 단계는 진행하지 않는다.
 
 - KTX/Korail: `collect-latest --provider korail`
 - SRT: `collect-latest --provider srt`

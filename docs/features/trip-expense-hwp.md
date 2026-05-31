@@ -2,6 +2,8 @@
 
 출장·여비 정산에 필요한 출장증빙 HWP와 교통 영수증 파일을 한 묶음으로 정리하는 스킬입니다.
 
+> **필수 선행 설치:** 이 스킬은 교통 영수증 수집을 `transport-receipt-collector`에 맡깁니다. `trip-expense-hwp`를 쓰려면 먼저 `transport-receipt-collector`를 설치해야 합니다.
+
 ## 할 수 있는 일
 
 - 출장비 정산서 HWP 템플릿 복사
@@ -56,7 +58,7 @@ skills/trip-expense-hwp/references/trip_sample_public.hwp
 
 ## 영수증 수집
 
-교통 영수증은 `transport-receipt-collector`를 우선 사용합니다.
+교통 영수증은 **필수 선행 스킬인 `transport-receipt-collector`**를 사용합니다. 이 스킬이 설치되어 있지 않으면 KTX/SRT/하이패스 영수증 자동 수집 단계는 진행하지 않습니다.
 
 예시:
 
