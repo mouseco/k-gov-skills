@@ -1,0 +1,33 @@
+name: Validate skills
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate skill metadata and public safety
+        run: python3 scripts/validate_skills.py
+
+      - name: Run repository unit tests
+        run: python3 -m unittest discover -s tests -p "test_*.py"
+
+      - name: Run skill unit tests
+        run: python3 -m unittest discover -s skills/kosis-stats/tests -p "test_*.py"

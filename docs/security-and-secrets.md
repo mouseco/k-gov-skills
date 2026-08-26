@@ -49,7 +49,7 @@ HWPX 파일을 커밋하기 전에 확인한다.
 ## 검증 명령
 
 ```powershell
-python -X utf8 scriptsalidate_skills.py
+python -X utf8 scripts\validate_skills.py
 ```
 
 검증은 보조 수단이다. 민감정보 공개 가능성은 최종적으로 사람이 다시 확인해야 한다.

@@ -91,7 +91,7 @@ feature docs에는 사용자와 유지보수자를 위한 내용을 넣는다.
 수정 후 최소한 아래를 실행한다.
 
 ```powershell
-python -X utf8 scriptsalidate_skills.py
+python -X utf8 scripts\validate_skills.py
 ```
 
 검증 범위:

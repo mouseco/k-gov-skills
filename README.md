@@ -1,10 +1,22 @@
 # k-gov-skills
 
+[![Validate skills](https://github.com/mouseco/k-gov-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/mouseco/k-gov-skills/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-13-1f6feb)](skills)
+
 ![k-gov-skills 소개 배너](docs/assets/k-gov-skills-banner.png)
 
-공공기관에서 문서, 회의록, 근거조사, HWPX 양식 때문에 시간을 많이 쓰나요? 이 스킬 모음집을 받아 두세요. 언젠가 **반드시** 쓸 일이 옵니다.
+**한국 공무원·공공기관 실무자를 위한 13개 공개 AI 업무 스킬**입니다.
 
-보고서 초안, 정책 근거조사, 회의록 PDF, HWPX 양식 채우기, 출장 증빙 정리처럼 공공 실무에서 반복되는 귀찮은 일을 AI 에이전트에게 맡기기 위한 스킬 모음입니다.
+보고서 초안, 공식 근거조사, 회의록 PDF, HWPX 양식 작성, 출장 증빙 정리처럼 공공 실무에서 반복되는 일을 AI 에이전트가 안전한 절차와 검증 기준에 따라 처리하도록 만듭니다.
+
+단순히 문장을 생성하는 프롬프트 모음이 아닙니다. 각 스킬에는 입력, 실행 절차, 실패 조건, 보안 경계, 완료 확인 기준을 함께 둡니다.
+
+- [설치 가이드](docs/install.md)
+- [에이전트용 요약](llms.txt)
+- [13개 스킬 한눈에 보기](#어떤-걸-할-수-있나)
+- [공개자료·시크릿 기준](docs/security-and-secrets.md)
+- [외부·파생 스킬 출처](docs/attribution.md)
 
 `k-gov-skills`는 [`NomaDamas/k-skill`](https://github.com/NomaDamas/k-skill)의 스킬 구조와 문서화 방식을 참고했습니다. 다만 방향은 조금 다릅니다. `k-skill`이 한국 생활·업무 전반의 자동화 모음이라면, `k-gov-skills`는 **공무원·공공기관 문서 업무**에 초점을 둡니다.
 
@@ -44,35 +56,35 @@
 
 ## 처음 시작하는 순서
 
-1. 필요한 스킬을 `skills/<skill-name>` 단위로 설치합니다.
-2. 새 세션에서 스킬이 인식되는지 확인합니다.
-3. 각 기능 문서를 열어 입력값, 예시, 제한사항을 확인합니다.
+가장 간단한 방법은 표준 Agent Skills CLI로 필요한 스킬만 설치하는 것입니다.
+
+```bash
+# 설치 가능한 스킬 확인
+npx skills add mouseco/k-gov-skills --list
+
+# 보고서 작성 스킬 하나 설치
+npx skills add mouseco/k-gov-skills --skill official-report-skillset -g
+
+# 13개 스킬 전체 설치
+npx skills add mouseco/k-gov-skills --all -g
+```
+
+설치한 뒤에는 다음 순서로 확인합니다.
+
+1. 에이전트를 새 세션으로 시작합니다.
+2. 설치한 스킬이 인식되는지 확인합니다.
+3. 각 기능 문서에서 입력값, 예시, 제한사항을 확인합니다.
 4. HWPX·회의록·영수증처럼 파일을 만드는 스킬은 결과 파일을 실제로 열어 검증합니다.
 5. 공개 저장소에 올릴 예시나 템플릿은 민감정보 검사를 먼저 통과시킵니다.
 
-설치 예시:
-
-```text
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/official-report-skillset
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/deep-research-pro
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/hwpx-mouseco
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/gov-meeting-minutes
-# trip-expense-hwp는 transport-receipt-collector 설치가 필수입니다.
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/transport-receipt-collector
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/trip-expense-hwp
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/alio
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/read-hwp
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/korean-law-search
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/kosis-stats
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/public-data-finder
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/g2b-bid-search
-$skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skills/national-assembly-tracker
-```
+에이전트 지정, 추천 조합, Git 직접 설치 방법은 [설치 가이드](docs/install.md)에 정리했습니다.
 
 ## 문서
 
 | 문서 | 설명 |
 | --- | --- |
+| [설치 가이드](docs/install.md) | Agent Skills CLI, Git 직접 설치, 업무별 추천 조합 |
+| [에이전트용 요약](llms.txt) | 에이전트가 읽을 저장소 개요, 설치 명령, 스킬 목록, 안전 경계 |
 | [새 스킬 추가 기준](docs/adding-a-skill.md) | `SKILL.md`, feature 문서, 예시 파일 작성 기준 |
 | [보안/시크릿 정책](docs/security-and-secrets.md) | 공공문서·개인정보·계정정보·비공개 양식 취급 기준 |
 | [출처/파생 기록](docs/attribution.md) | 외부 스킬에서 가져온 부분과 수정 범위 |
@@ -112,6 +124,7 @@ $skill-installer install https://github.com/mouseco/k-gov-skills/tree/main/skill
 
 ```text
 docs/
+  install.md                 설치 방법과 업무별 추천 조합
   adding-a-skill.md          새 스킬 추가 표준
   security-and-secrets.md    공개자료·시크릿 취급 기준
   attribution.md             외부·파생 스킬 출처 기록
@@ -161,6 +174,12 @@ python -X utf8 scripts\validate_skills.py
 - Python 스크립트 컴파일 확인
 - HWPX 템플릿 ZIP/XML 구조 확인
 - 공개 저장소에 부적절한 민감 문자열 기본 검색
+- README와 실제 스킬 목록 일치 확인
+- 제어문자와 잘못된 문서 경로 검사
+
+## 라이선스
+
+mouseco가 직접 작성한 코드와 문서는 기본적으로 [MIT License](LICENSE)로 공개합니다. 외부 스킬을 수정한 파생·적응본은 원본의 라이선스와 출처 조건을 우선하며, 자세한 범위는 [`docs/attribution.md`](docs/attribution.md)에 기록합니다.
 
 ## 이 저장소의 방향
 

@@ -1,0 +1,47 @@
+# k-gov-skills
+
+> Korean public-sector AI skills for official reports, source-grounded research, HWP/HWPX documents, meeting minutes, public APIs, legislation tracking, and travel-expense evidence.
+
+Repository: https://github.com/mouseco/k-gov-skills
+Homepage: https://mouseco.kr/treasure/k-gov-skills-public-sector-ai-skills
+Install guide: docs/install.md
+Security policy: docs/security-and-secrets.md
+Attribution: docs/attribution.md
+
+## Install
+
+List all available skills:
+
+    npx skills add mouseco/k-gov-skills --list
+
+Install one skill globally:
+
+    npx skills add mouseco/k-gov-skills --skill official-report-skillset -g
+
+Install all skills globally:
+
+    npx skills add mouseco/k-gov-skills --all -g
+
+## Skills
+
+- alio: inspect institution-level ALIO public disclosures
+- deep-research-pro: build source-grounded policy and institutional research briefs
+- g2b-bid-search: search Korean public procurement notices
+- gov-meeting-minutes: turn transcripts into official-style meeting minutes and detailed records
+- hwpx-mouseco: create and validate Korean public-report HWPX documents
+- korean-law-search: search Korean laws and legal sources
+- kosis-stats: query official Korean statistics from KOSIS
+- national-assembly-tracker: track National Assembly bills and official follow-up sources
+- official-report-skillset: structure decision-ready Korean public-sector reports
+- public-data-finder: find datasets and APIs on data.go.kr
+- read-hwp: read and convert HWP/HWPX documents
+- transport-receipt-collector: collect authorized transport receipts for expense evidence
+- trip-expense-hwp: package travel-expense HWP forms and receipt evidence
+
+## Operating boundaries
+
+- Prefer official sources and record source URLs and reference dates.
+- Never invent laws, numbers, decisions, speakers, approvals, or expenses.
+- Do not store API keys, passwords, cookies, internal documents, personal data, seals, or signatures in the repository.
+- Stop at CAPTCHA, OTP, identity verification, payment, cancellation, submission, or account changes.
+- Open generated HWPX, HWP, PDF, and receipt files and verify the actual artifact before declaring completion.

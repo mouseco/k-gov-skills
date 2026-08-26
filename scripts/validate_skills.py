@@ -9,6 +9,11 @@ from xml.etree import ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
 FEATURES = ROOT / "docs" / "features"
+README = ROOT / "README.md"
+LICENSE = ROOT / "LICENSE"
+LLMS = ROOT / "llms.txt"
+INSTALL_GUIDE = ROOT / "docs" / "install.md"
+CI_WORKFLOW = ROOT / ".github" / "workflows" / "validate.yml"
 
 SENSITIVE_PATTERNS = [
     "mouseco@",
@@ -73,7 +78,7 @@ def validate_skill_metadata(errors):
 
 def validate_json(errors):
     for path in ROOT.rglob("*.json"):
-        if any(part in IGNORE_PARTS for part in path.parts):
+        if any(part in IGNORE_PARTS for part in path.relative_to(ROOT).parts):
             continue
         try:
             json.loads(path.read_text(encoding="utf-8"))
@@ -83,7 +88,7 @@ def validate_json(errors):
 
 def validate_python(errors):
     for path in ROOT.rglob("*.py"):
-        if any(part in IGNORE_PARTS for part in path.parts):
+        if any(part in IGNORE_PARTS for part in path.relative_to(ROOT).parts):
             continue
         try:
             py_compile.compile(str(path), doraise=True)
@@ -114,7 +119,7 @@ def validate_public_safety(errors):
         if not path.is_file():
             continue
         normalized = str(path.relative_to(ROOT)).replace("\\", "/")
-        if any(part in IGNORE_PARTS for part in path.parts):
+        if any(part in IGNORE_PARTS for part in path.relative_to(ROOT).parts):
             continue
         if any(snippet in normalized for snippet in IGNORE_PATH_SNIPPETS):
             continue
@@ -131,6 +136,7 @@ def validate_public_safety(errors):
                 allowed_rule_docs = {
                     ".gitignore",
                     "README.md",
+                    "llms.txt",
                     "docs/adding-a-skill.md",
                     "docs/security-and-secrets.md",
                     "scripts/validate_skills.py",
@@ -156,19 +162,58 @@ def validate_public_safety(errors):
                 fail(errors, f"{path}: possible sensitive pattern {pattern!r}")
 
 
+def validate_repository_contract(errors):
+    required_paths = [README, LICENSE, LLMS, INSTALL_GUIDE, CI_WORKFLOW]
+    for path in required_paths:
+        if not path.exists():
+            fail(errors, f"required repository file missing: {path.relative_to(ROOT)}")
+
+    if not README.exists() or not SKILLS.exists():
+        return
+
+    readme_text = README.read_text(encoding="utf-8")
+    skill_names = sorted(p.name for p in SKILLS.iterdir() if p.is_dir())
+    for name in skill_names:
+        if f"`{name}`" not in readme_text:
+            fail(errors, f"README.md: missing skill name `{name}`")
+
+    badge = f"Agent%20Skills-{len(skill_names)}-"
+    if badge not in readme_text:
+        fail(errors, f"README.md: skill-count badge does not match {len(skill_names)} skills")
+
+
+def validate_text_hygiene(errors):
+    invalid_control = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or any(part in IGNORE_PARTS for part in path.relative_to(ROOT).parts):
+            continue
+        if path.suffix.lower() in {".hwpx", ".hwp", ".png", ".jpg", ".jpeg", ".pyc"}:
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        match = invalid_control.search(text)
+        if match:
+            line = text.count("\n", 0, match.start()) + 1
+            fail(errors, f"{path}: invalid control character U+{ord(match.group()):04X} at line {line}")
+
+
 def main():
     errors = []
+    validate_repository_contract(errors)
     validate_skill_metadata(errors)
     validate_json(errors)
     validate_python(errors)
     validate_hwpx(errors)
     validate_public_safety(errors)
+    validate_text_hygiene(errors)
     if errors:
         print("FAIL")
         for err in errors:
             print(f"- {err}")
         return 1
-    print("OK: skill metadata, feature docs, JSON, Python, HWPX, and public-safety checks passed")
+    print("OK: repository contract, skill metadata, feature docs, JSON, Python, HWPX, public-safety, and text-hygiene checks passed")
     return 0
 
 
