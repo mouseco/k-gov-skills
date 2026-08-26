@@ -85,6 +85,7 @@ npx skills add mouseco/k-gov-skills --all -g
 | --- | --- |
 | [설치 가이드](docs/install.md) | Agent Skills CLI, Git 직접 설치, 업무별 추천 조합 |
 | [에이전트용 요약](llms.txt) | 에이전트가 읽을 저장소 개요, 설치 명령, 스킬 목록, 안전 경계 |
+| [변경 기록](CHANGELOG.md) | 공개 저장소의 사용자에게 영향을 주는 주요 변경사항 |
 | [새 스킬 추가 기준](docs/adding-a-skill.md) | `SKILL.md`, feature 문서, 예시 파일 작성 기준 |
 | [보안/시크릿 정책](docs/security-and-secrets.md) | 공공문서·개인정보·계정정보·비공개 양식 취급 기준 |
 | [출처/파생 기록](docs/attribution.md) | 외부 스킬에서 가져온 부분과 수정 범위 |
